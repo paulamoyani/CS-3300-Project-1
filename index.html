@@ -4,6 +4,7 @@
 		<script src="https://d3js.org/d3.v4.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
 		<script src="http://d3js.org/topojson.v2.min.js"></script>
+		<script src="js/functions.js" type="text/javascript"></script>
 		<style>
 			body {font-family: 'Alegreya Sans', Calibri, sans-serif; text-anchor: 'middle'; dominant-baseline: 'central';}
 			.country[data-continent="North America"] { fill: #0067A5; }
@@ -19,12 +20,16 @@
 
 	<body>
 		<h2>CS3300: Project 1</0h2> 
-		<h3><u>Issues:</u> <br> 1) Pope not in second graph,<br> 2) lines not aligned <br></h3>
+		<h3><u>Issues:</u> <br> 1) Pope not in 2/3 graphs (notice line doesn't end) <br> 
+		2) Sheikh not in 2/3 graphs (no bubbles) <br> 
+		3) lines not aligned <br>
+		4) Text sometimes overlaps/hard to read.<br>
+		</h3>
 
 		<p id=“project1”> 
 			<svg height="480" width="1000" id="mapView">
 			</svg>
-			<script>
+			<script type="text/javascript">
 				var svg = d3.select(mapView);
 
 				var width = svg.attr("width");
@@ -35,23 +40,31 @@
 
 				var rawData;
 				var countries;
-				var socialMediaData
+				var socialMediaData;
 
 				d3.json("data/Merged_Data_Feb21.json", function (error, data) {
-					socialMediaData = data 
-					var leadersWithFollowers = []
+					socialMediaData = data;
+					var leadersWithFollowers = [];
 
 					socialMediaData.forEach(function (d) {
 						if (d.totalFollowers != 0) {
-							capitalCityCoord = [d.capitalLongitude, d.capitalLatitude]
-							leadersWithFollowers.push(capitalCityCoord)
+							capitalCityCoord = [d.capitalLongitude, d.capitalLatitude];
+							leadersWithFollowers.push(capitalCityCoord);
 						}
-					})
+					});
+
+					var longitudeExtent0 = d3.extent(socialMediaData, function (d) { 
+						return d.capitalLongitude;
+					});
+
+					var longitudeScale0 = d3.scaleLinear()
+					    .domain(longitudeExtent0)
+					    .range([0, 1000]);
 
 					//To create larger circles for top 10 leaders
 					var followersScale = d3.scaleLinear()
 				    	.domain([10021649, 98247052])
-				    	.range([15, 50])
+				    	.range([15, 50]);
 
 					var specialCapitals = []
 				    socialMediaData.forEach(function (d) {
@@ -59,13 +72,13 @@
 							specialCapitalCityCoord = [d.capitalLongitude, d.capitalLatitude, d.totalFollowers]
 							specialCapitals.push(specialCapitalCityCoord)
 						}
-					})
+					});
 
 				  	d3.json("data/world-50m.json", function (error, data) {
-				  	rawData = data;  
-				  	countries = topojson.feature(rawData, rawData.objects.countries); //change to continent
-				  	showMap();
-				  	})
+					  	rawData = data;  
+					  	countries = topojson.feature(rawData, rawData.objects.countries); //change to continent
+					  	showMap();
+				  	});
 
 					function showMap() {
 				  		projection.fitExtent([[0,0], [width, height]], countries);
@@ -77,7 +90,6 @@
 				    	.attr("class", "country")
 							.attr("stroke", "#808080")
 							.attr( "fill", "#C0C0C0")
-							//.attr("data-continent", function(d) { console.log(d.properties.continent); return d.properties.continent; })
 				    		.merge(paths);  
 
 				    	paths.attr("d", function(country) {
@@ -143,133 +155,375 @@
 				          return projection(d)[0]})
 						.attr("y2",height)
 						.style("stroke", "black");
-
-					}
-				})
+					};
+				});
 			</script>
 			<svg height="400" width="1000" id="graph1">
 			</svg>
-			<script>
-				var svg1 = d3.select(graph1);
+			<script type="text/javascript">
+				var svg1 = d3.select("#graph1");
 
-				var socialMediaData;
+				var socialMediaData0;
 
 				d3.json("data/Merged_Data_Feb21.json", function (error, data) {
-					socialMediaData = data;
+					socialMediaData0 = data;
 					
-					var popExtent = d3.extent(socialMediaData, function (d) { 
+					var popExtent = d3.extent(socialMediaData0, function (d) { 
 						return d.lgPop;
-				})
+					});
+
 					var popScale = d3.scaleLinear()
-				    	.domain([5, 10])
-				    	.range([360, 40]);
+					.domain([5, 10])
+					.range([360, 40]);
 
-				var longitudeExtent = d3.extent(socialMediaData, function (d) { 
-					return d.capitalLongitude;
-				})
-				var longitudeScale = d3.scaleLinear()
-				    .domain(longitudeExtent)
-				    .range([0, 1000]);
+					var longitudeExtent = d3.extent(socialMediaData0, function (d) { 
+						return d.capitalLongitude;
+					});
+					var longitudeScale = d3.scaleLinear()
+					    .domain(longitudeExtent)
+					    .range([0, 1000]);
 
-				var popAxis = d3.axisLeft(popScale);
-				svg1.append("g")
-				.attr("transform", "translate(40, 0)")
-				.call(popAxis);
+					var popAxis = d3.axisLeft(popScale);
+					svg1.append("g")
+					.attr("transform", "translate(40, 0)")
+					.call(popAxis);
 
-				var longitudeAxis = d3.axisBottom(longitudeScale);
-				svg1.append("g")
-				.attr("transform", "translate(0, 360)")
-				.call(longitudeAxis);
+					var longitudeAxis = d3.axisBottom(longitudeScale);
+					svg1.append("g")
+					.attr("transform", "translate(0, 360)")
+					.call(longitudeAxis);
 
-				var followersScale = d3.scaleLinear()
-				.domain([10021649, 98247052])
-				.range([15, 50])
+					var followersScale = d3.scaleLinear()
+					.domain([10021649, 98247052])
+					.range([15, 50]);
 
-				var approvalExtent = d3.extent(socialMediaData, function (d) { 
-					return d.approvalRatings;
-				})
+					var approvalExtent = d3.extent(socialMediaData0, function (d) { 
+						return d.approvalRatings;
+					});
 
-				var approvalScale = d3.scaleLinear()
-				.domain(approvalExtent)
-				.range([0,1]);
+					var approvalScale = d3.scaleLinear()
+					.domain(approvalExtent)
+					.range([0,1]);
 
-				svg1.append("text")
-					.attr("x", 500)
-				    .attr("y", 390)
-				    .style("font-family", "Palatino")
-				    .style("font-size", "11px")
-				    .style("alignment-baseline", "middle")
-				    .style("text-anchor", "middle")
-				    .text("Longitude");
+					svg1.append("text")
+						.attr("x", 500)
+					    .attr("y", 390)
+					    .style("font-family", "Palatino")
+					    .style("font-size", "11px")
+					    .style("alignment-baseline", "middle")
+					    .style("text-anchor", "middle")
+					    .text("Longitude");
 
-				svg1.append("text")
-				    .attr("x", 60)
-				    .attr("y", 20)
-				    .style("font-family", "Palatino")
-				    .style("font-size", "11px")
-				    .style("alignment-baseline", "middle")
-				    .style("text-anchor", "middle")
-				    .text("Population (Log Scale)");
+					svg1.append("text")
+					    .attr("x", 60)
+					    .attr("y", 20)
+					    .style("font-family", "Palatino")
+					    .style("font-size", "11px")
+					    .style("alignment-baseline", "middle")
+					    .style("text-anchor", "middle")
+					    .text("Population (Log Scale)");
 
-				socialMediaData.forEach(function (d) {
-				    if (d.totalFollowers != 0) {
-				        if (d.totalFollowers >= 10021649) { 
-				            svg1.append("circle")
-				           	.attr("cx", longitudeScale(d.capitalLongitude))
-				            .attr("cy", popScale(d.lgPop))
-				            .attr("r", followersScale(d.totalFollowers))
-				            .style("fill", "#FF4C4C")
-				            .style("opacity", approvalScale(d.approvalRatings));
+					socialMediaData0.forEach(function (d) {
+					    if (d.totalFollowers != 0) {
+					        if (d.totalFollowers >= 10021649) { 
+					            svg1.append("circle")
+					           	.attr("cx", longitudeScale(d.capitalLongitude))
+					            .attr("cy", popScale(d.lgPop))
+					            .attr("r", followersScale(d.totalFollowers))
+					            .style("fill", "#FF4C4C")
+					            .style("opacity", approvalScale(d.approvalRatings));
 
-				            svg1.append("text")
-				            .attr("x", longitudeScale(d.capitalLongitude)+5)
-				            .attr("y", popScale(d.lgPop)-0.8)
-				            .style("font-family", "Palatino")
-				            .style("font-size", "10px")
-				            .style("alignment-baseline", "middle")
-				            .text(d.worldLeader);
+					            svg1.append("text")
+					            .attr("x", longitudeScale(d.capitalLongitude)+5)
+					            .attr("y", popScale(d.lgPop)-0.8)
+					            .style("font-family", "Palatino")
+					            .style("font-size", "10px")
+					            .style("alignment-baseline", "middle")
+					            .text(d.worldLeader);
 
-				            console.log(d.capitalLongitude);
-
-				            svg1.append("line")
-				            .attr("x1",longitudeScale(d.capitalLongitude))
-				            .attr("x2",longitudeScale(d.capitalLongitude))
-				            .attr("y1",0)
-				            .attr("y2",popScale(d.lgPop))
-				            .style("opacity", 0.15)
-				            .style("stroke", "black");
-				        }
-				        else {
-				            svg1.append("circle")
-				            .attr("cx", longitudeScale(d.capitalLongitude))
-				            .attr("cy", popScale(d.lgPop))
-				            .attr("r", 3)
-				            .style("fill", "#FF4C4C")
-				            .style("opacity", approvalScale(d.approvalRatings))
-				        }
-				    }
-				})
-
-				/**lines for top 10 leaders
-				var specialLines1 = svg1.selectAll("line").data(specialCapitals);
-
-				specialLines1 = specialLines1.enter().append("line")
-				.style("opacity", 0.15)
-				.merge(specialLines1);
-
-				specialLines1
-				.attr("x1", function(d) {
-				    return longitudeScale(d.capitalLongitude)})
-				.attr("y1", 0)
-				.attr("x2", function(d) {
-				    return longitudeScale(d.capitalLongitude)})
-				.attr("y2",popScale(d.lgPop))
-				.style("stroke", "black");**/
-
-			})
-
+					            svg1.append("line")
+					            .attr("x1",longitudeScale(d.capitalLongitude))
+					            .attr("x2",longitudeScale(d.capitalLongitude))
+					            .attr("y1",0)
+					            .attr("y2",height)
+					            .style("opacity", 0.15)
+					            .style("stroke", "black");
+					        }
+					        else {
+					            svg1.append("circle")
+					            .attr("cx", longitudeScale(d.capitalLongitude))
+					            .attr("cy", popScale(d.lgPop))
+					            .attr("r", 3)
+					            .style("fill", "#FF4C4C")
+					            .style("opacity", approvalScale(d.approvalRatings));
+					        };
+					    };
+					});
+				});
 
 			</script>
+
+			<svg height="400" width="1000" id="graph2">
+			</svg>
+			<script type="text/javascript">
+				var svg2 = d3.select("#graph2");
+
+				var socialMediaData1;
+
+				d3.json("data/Merged_Data_Feb21.json", function (error, data) {
+					socialMediaData1 = data;
+					
+					var age = d3.extent(socialMediaData1, function (d) { 
+						return d.age;
+					});
+
+					//Statistics
+					var ageMedian = median(age);
+					var ageMax = Math.max.apply(null,age);
+					var ageMin = Math.min.apply(null,age);
+
+					var ageScale = d3.scaleLinear()
+					.domain([0,ageMax])
+					.range([360, 40]);
+
+					var longitudeExtent1 = d3.extent(socialMediaData1, function (d) { 
+						return d.capitalLongitude;
+					});
+
+					var longitudeScale1 = d3.scaleLinear()
+					    .domain(longitudeExtent1)
+					    .range([0, 1000]);
+
+					var ageAxis = d3.axisLeft(ageScale);
+					svg2.append("g")
+					.attr("transform", "translate(40, 0)")
+					.call(ageAxis);
+
+					var longitudeAxis1 = d3.axisBottom(longitudeScale1);
+					svg2.append("g")
+					.attr("transform", "translate(0, 360)")
+					.call(longitudeAxis1);
+
+					var followersScale1 = d3.scaleLinear()
+					.domain([10021649, 98247052])
+					.range([15, 50]);
+
+					var approvalExtent1 = d3.extent(socialMediaData1, function (d) { 
+						return d.approvalRatings;
+					});
+
+					var approvalScale1 = d3.scaleLinear()
+					.domain(approvalExtent1)
+					.range([0,1]);
+
+					svg2.append("text")
+						.attr("x", 500)
+					    .attr("y", 390)
+					    .style("font-family", "Palatino")
+					    .style("font-size", "11px")
+					    .style("alignment-baseline", "middle")
+					    .style("text-anchor", "middle")
+					    .text("Longitude");
+
+					svg2.append("text")
+					    .attr("x", 40)
+					    .attr("y", 20)
+					    .style("font-family", "Palatino")
+					    .style("font-size", "11px")
+					    .style("alignment-baseline", "middle")
+					    .style("text-anchor", "middle")
+					    .text("Age");
+
+					//Line for Median
+					svg2.append("line")
+					    .attr("x1",40)
+					    .attr("x2",width)
+					    .attr("y1",ageScale(ageMedian))
+					    .attr("y2",ageScale(ageMedian))
+					    .style("stroke", "green");
+					//Text for Median
+					svg2.append("text")
+					    .attr("x", 80)
+					    .attr("y", ageScale(ageMedian)-5)
+					    .style("font-family", "Palatino")
+					    .style("font-size", "11px")
+					    .style("fill", "green")
+					    .style("alignment-baseline", "middle")
+					    .style("text-anchor", "middle")
+					    .text("Median: " + ageMedian);
+
+					//Line for Max Age
+					svg2.append("line")
+					    .attr("x1",40)
+					    .attr("x2",width)
+					    .attr("y1",ageScale(ageMax))
+					    .attr("y2",ageScale(ageMax))
+					    .style("stroke", "red");
+					//Text for Max Age
+					svg2.append("text")
+					    .attr("x", 132)
+					    .attr("y", ageScale(ageMax)-5)
+					    .style("font-family", "Palatino")
+					    .style("font-size", "11px")
+					    .style("fill", "red")
+					    .style("alignment-baseline", "middle")
+					    .style("text-anchor", "middle")
+					    .text("Max Age: " + ageMax + "(Queen Elizabeth II)");
+
+					//Line for Min Age
+					svg2.append("line")
+					    .attr("x1",40)
+					    .attr("x2",width)
+					    .attr("y1",ageScale(ageMin))
+					    .attr("y2",ageScale(ageMin))
+					    .style("stroke", "orange");
+					//Text for Min Age
+					svg2.append("text")
+					    .attr("x", 125)
+					    .attr("y", ageScale(ageMin)-5)
+					    .style("font-family", "Palatino")
+					    .style("font-size", "11px")
+					    .style("fill", "orange")
+					    .style("alignment-baseline", "middle")
+					    .style("text-anchor", "middle")
+					    .text("Max Age: " + ageMin + "(Sebastian Kurz)");
+
+
+					socialMediaData1.forEach(function (d) {
+					    if (d.totalFollowers != 0) {
+					        if (d.totalFollowers >= 10021649) { 
+					            svg2.append("circle")
+					           	.attr("cx", longitudeScale1(d.capitalLongitude))
+					            .attr("cy", ageScale(d.age))
+					            .attr("r", followersScale1(d.totalFollowers))
+					            .style("fill", colorThirdGraph(d))
+					            .style("opacity", approvalScale1(d.approvalRatings));
+
+					            svg2.append("text")
+					            .attr("x", longitudeScale1(d.capitalLongitude)+5)
+					            .attr("y", ageScale(d.age)-0.8)
+					            .style("font-family", "Palatino")
+					            .style("font-size", "10px")
+					            .style("alignment-baseline", "middle")
+					            .text(d.worldLeader);
+
+					            svg2.append("line")
+					            .attr("x1",longitudeScale1(d.capitalLongitude))
+					            .attr("x2",longitudeScale1(d.capitalLongitude))
+					            .attr("y1",0)
+					            .attr("y2",ageScale(d.age))
+					            .style("opacity", 0.15)
+					            .style("stroke", "black");
+					        }
+					        else {
+					            svg2.append("circle")
+					            .attr("cx", longitudeScale1(d.capitalLongitude))
+					            .attr("cy", ageScale(d.age))
+					            .attr("r", 3)
+					            .style("fill", colorThirdGraph(d))
+					            .style("opacity", approvalScale1(d.approvalRatings));
+					        };
+					    };
+					});
+				});
+			</script>
+
+			<svg height="400" width="1000" id="graph3">
+			</svg>
+			<script type="text/javascript">
+				var svg3 = d3.select("#graph3");
+
+				var socialMediaData2;
+
+				d3.json("data/Merged_Data_Feb21.json", function (error, data) {
+					socialMediaData2 = data;
+
+					var totalFollowers = d3.extent(socialMediaData2, function (d) { 
+						return d.totalFollowers;
+					});
+					var FacebookFollowers = d3.extent(socialMediaData2, function (d) { 
+						return d.facebookLikes;
+					});
+					var TwitterFollowers = d3.extent(socialMediaData2, function (d) { 
+						return d.twitterFollowers;
+					});
+					var InstagramFollowers = d3.extent(socialMediaData2, function (d) { 
+						return d.instagramFollowers;
+					});
+					var top10Countries = d3.extent(socialMediaData2, function (d) { 
+						 if (d.totalFollowers != 0) {
+					        if (d.totalFollowers >= 10021649) { 
+								return d.country;
+							}
+						}
+					});
+
+					//Statistics of Followers
+					var followersMax = Math.max.apply(null,totalFollowers);
+					var followersMin = Math.min.apply(null,totalFollowers);
+
+					console.log(followersMax);
+
+					var followersScale3 = d3.scaleLinear()
+					.domain([followersMin, followersMax])
+					.range([360, 40]);
+
+
+					var followersAxis1 = d3.axisLeft(followersScale2);
+					svg3.append("g")
+					.attr("transform", "translate(40, 0)")
+					.call(followersAxis1);
+
+					var countryScale = d3.scaleLinear()
+					.domain([0, 10])
+					.range([40, 1000]);
+
+					var countryAxis = d3.axisBottom(top10Countries);
+					svg3.append("g")
+					.attr("transform", "translate(0, 360)")
+					.call(countryAxis);
+
+
+					socialMediaData2.forEach(function (d) {
+					    if (d.totalFollowers != 0) {
+					        if (d.totalFollowers >= 10021649) { 
+					            svg3.append("circle")
+					           	.attr("cx", longitudeScale2(d.capitalLongitude))
+					            .attr("cy", ageScale(d.age))
+					            .attr("r", followersScale2(d.totalFollowers))
+					            .style("fill", colorThirdGraph(d))
+					            .style("opacity", approvalScale2(d.approvalRatings));
+
+					            svg3.append("text")
+					            .attr("x", longitudeScale2(d.capitalLongitude)+5)
+					            .attr("y", ageScale(d.age)-0.8)
+					            .style("font-family", "Palatino")
+					            .style("font-size", "10px")
+					            .style("alignment-baseline", "middle")
+					            .text(d.worldLeader);
+
+					            svg3.append("line")
+					            .attr("x1",longitudeScale2(d.capitalLongitude))
+					            .attr("x2",longitudeScale2(d.capitalLongitude))
+					            .attr("y1",0)
+					            .attr("y2",ageScale(d.age))
+					            .style("opacity", 0.15)
+					            .style("stroke", "black");
+					        }
+					        else {
+					            svg3.append("circle")
+					            .attr("cx", longitudeScale2(d.capitalLongitude))
+					            .attr("cy", ageScale(d.age))
+					            .attr("r", 3)
+					            .style("fill", colorThirdGraph(d))
+					            .style("opacity", approvalScale2(d.approvalRatings));
+					        };
+					    };
+					});
+				});
+
+
+			
 		</p>
 	</body>
 </html>
