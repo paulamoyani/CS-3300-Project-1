@@ -1,223 +1,275 @@
 <html>
-<head>
-<title> World Leaders and their Social Media Accounts </title>
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
-<script src="http://d3js.org/topojson.v2.min.js"></script>
-<style>
-body {font-family: 'Alegreya Sans', Calibri, sans-serif; }
-svg { border: solid #ccc 1px; }
-</style>
+	<head>
+		<title> World Leaders and their Social Media Accounts </title>
+		<script src="https://d3js.org/d3.v4.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+		<script src="http://d3js.org/topojson.v2.min.js"></script>
+		<style>
+			body {font-family: 'Alegreya Sans', Calibri, sans-serif; text-anchor: 'middle'; dominant-baseline: 'central';}
+			.country[data-continent="North America"] { fill: #0067A5; }
+			.country[data-continent="South America"] { fill: #E6E6FA; }
+			.country[data-continent="Asia"] { fill: #E0FFFF; }
+			.country[data-continent="Africa"] { fill: #90EE90; }
+			.country[data-continent="Europe"] { fill: #FFE4B5; }
+			.country[data-continent="Oceania"] { fill: 	#FFC0CB; }
+			.country[data-continent="Antarctica"] { fill: #efc2c2; }
 
-<body>
-<h2>CS3800: Project 1</h1>
+		</style>
+	</head>
 
-<p id=“project1”> 
-<svg height="480" width="1000" id="mapView">
-</svg>
-<script>
-var svg = d3.select(mapView);
+	<body>
+		<h2>CS3300: Project 1</0h2> 
+		<h3><u>Issues:</u> <br> 1) Pope not in second graph,<br> 2) lines not aligned <br></h3>
 
-var width = svg.attr("width");
-var height = svg.attr("height");
+		<p id=“project1”> 
+			<svg height="480" width="1000" id="mapView">
+			</svg>
+			<script>
+				var svg = d3.select(mapView);
 
-var projection = d3.geoEquirectangular().scale(75);
-var pathGenerator = d3.geoPath().projection(projection);
+				var width = svg.attr("width");
+				var height = svg.attr("height");
 
-var rawData;
-var countries;
-var socialMediaData
+				var projection = d3.geoEquirectangular().scale(75);
+				var pathGenerator = d3.geoPath().projection(projection);
 
-d3.json("Merged_Data_Feb21.json", function (error, data) {
-	socialMediaData = data 
-	var leadersWithFollowers = []
+				var rawData;
+				var countries;
+				var socialMediaData
 
-	socialMediaData.forEach(function (d) {
-		if (d.totalFollowers != 0) {
-			capitalCityCoord = [d.capitalLongitude, d.capitalLatitude]
-			leadersWithFollowers.push(capitalCityCoord)
-		}
-	})
+				d3.json("data/Merged_Data_Feb21.json", function (error, data) {
+					socialMediaData = data 
+					var leadersWithFollowers = []
 
-	//To create larger circles for top 10 leaders
-	var followersScale = d3.scaleLinear()
-    	.domain([10021649, 98247052])
-    	.range([15, 50])
+					socialMediaData.forEach(function (d) {
+						if (d.totalFollowers != 0) {
+							capitalCityCoord = [d.capitalLongitude, d.capitalLatitude]
+							leadersWithFollowers.push(capitalCityCoord)
+						}
+					})
 
-	var specialCapitals = []
-    socialMediaData.forEach(function (d) {
-		if (d.totalFollowers >= 10021649) {	
-			specialCapitalCityCoord = [d.capitalLongitude, d.capitalLatitude, d.totalFollowers]
-			specialCapitals.push(specialCapitalCityCoord)
-		}
-	})
+					//To create larger circles for top 10 leaders
+					var followersScale = d3.scaleLinear()
+				    	.domain([10021649, 98247052])
+				    	.range([15, 50])
 
-  	d3.json("world-50m.json", function (error, data) {
-  	rawData = data;  
-  	countries = topojson.feature(rawData, rawData.objects.countries);
-  	showMap();
-  	})
+					var specialCapitals = []
+				    socialMediaData.forEach(function (d) {
+						if (d.totalFollowers >= 10021649) {	
+							specialCapitalCityCoord = [d.capitalLongitude, d.capitalLatitude, d.totalFollowers]
+							specialCapitals.push(specialCapitalCityCoord)
+						}
+					})
 
-	function showMap() {
-  		projection.fitExtent([[0,0], [width, height]], countries);
-  		pathGenerator = d3.geoPath().projection(projection);
+				  	d3.json("data/world-50m.json", function (error, data) {
+				  	rawData = data;  
+				  	countries = topojson.feature(rawData, rawData.objects.countries); //change to continent
+				  	showMap();
+				  	})
 
-  		var paths = svg.selectAll("path.country")
-  			.data(countries.features)
-    	paths = paths.enter().append("path")
-    	.attr("class", "country")
-			.attr( "fill", "#C0C0C0")
-			.attr("stroke", "#808080")
-    		.merge(paths);  
+					function showMap() {
+				  		projection.fitExtent([[0,0], [width, height]], countries);
+				  		pathGenerator = d3.geoPath().projection(projection);
 
-    	paths.attr("d", function(country) {
-     		return pathGenerator(country);
-    	})
+				  		var paths = svg.selectAll("path.country")
+				  			.data(countries.features)
+				    	paths = paths.enter().append("path")
+				    	.attr("class", "country")
+							.attr("stroke", "#808080")
+							.attr( "fill", "#C0C0C0")
+							//.attr("data-continent", function(d) { console.log(d.properties.continent); return d.properties.continent; })
+				    		.merge(paths);  
 
-    	var circles = svg.selectAll("circle").data(leadersWithFollowers)
+				    	paths.attr("d", function(country) {
+				     		return pathGenerator(country);
+				    	})
 
-    	circles = circles.enter().append("circle")
-    		.style("fill", "#FF4C4C")
-    		.style("opacity", 0.85)
-    		.merge(circles)
-			.on("click", function(d) {
-  					console.log(d[0])
-  					console.log(d[1])
-  				});
+				    	var circles = svg.selectAll("circle").data(leadersWithFollowers)
 
-    	circles.attr("cx", function(d) {
-      		return projection(d)[0];
-   		})
-    	
-    	circles.attr("cy", function(d) {
-      		return projection(d)[1];
-      	})
+				    	circles = circles.enter().append("circle")
+				    		.style("fill", "#FF4C4C")
+				    		.style("opacity", 0.85)
+				    		.merge(circles)
+							.on("click", function(d) {
+				  					console.log(d[0])
+				  					console.log(d[1])
+				  				});
 
-      	circles.attr("r", function(d) {
-    		return 3;
-   		})
+				    	circles.attr("cx", function(d) {
+				      		return projection(d)[0];
+				   		})
+				    	
+				    	circles.attr("cy", function(d) {
+				      		return projection(d)[1];
+				      	})
 
-      //circles for top 10 leaders 
-   		var specialCircles = svg.selectAll("circle").data(specialCapitals)
+				      	circles.attr("r", function(d) {
+				    		return 3;
+				   		})
 
-    	specialCircles = specialCircles.enter().append("circle")
-    		.style("fill", "#FF4C4C")
-    		.style("opacity", 0.85)
-    		.merge(specialCircles)
-			.on("click", function(d) {
-  					console.log(d[0])
-  					console.log(d[1])
-  				});
+				    //circles for top 10 leaders 
+				   		var specialCircles = svg.selectAll("circle").data(specialCapitals);
 
-    	specialCircles.attr("cx", function(d) {
-          return projection(d)[0];
-   		})
-    	
-    	specialCircles.attr("cy", function(d) {
-      		return projection(d)[1];
-      	})
+				    	specialCircles = specialCircles.enter().append("circle")
+				    		.style("fill", "#FF4C4C")
+				    		.style("opacity", 0.85)
+				    		.merge(specialCircles)
+							.on("click", function(d) {
+				  					console.log(d[0])
+				  					console.log(d[1])
+				  				});
 
-    	specialCircles.attr("r", function(d) {
-    		return followersScale((d)[2]);
-   		})
-	}
-})
-</script>
-<svg height="400" width="1000" id="graph1">
-</svg>
-<script>
-var svg1 = d3.select(graph1);
+				    	specialCircles
+				    	.attr("cx", function(d) {
+				          return projection(d)[0]; })
+				    	.attr("cy", function(d) {
+				      		return projection(d)[1]; })
+						.attr("r", function(d) {
+				    		return followersScale((d)[2]); })
 
-var socialMediaData
+				   	//lines for top 10 leaders
+				   		var specialLines = svg.selectAll("line").data(specialCapitals)
 
-d3.json("Merged_Data_Feb21.json", function (error, data) {
-	socialMediaData = data 
-	
-	var popExtent = d3.extent(socialMediaData, function (d) { 
-		return d.lgPop
-  })
-	var popScale = d3.scaleLinear()
-    	.domain([5, 10])
-    	.range([360, 40])
+				   		specialLines = specialLines.enter().append("line")
+				    		.style("opacity", 0.15)
+				    		.merge(specialLines);
 
-  var longitudeExtent = d3.extent(socialMediaData, function (d) { 
-    return d.capitalLongitude
-  })
-  var longitudeScale = d3.scaleLinear()
-      .domain(longitudeExtent)
-      .range([0, 1000])
+				    	specialLines
+				   		.attr("x1", function(d) {
+				          return projection(d)[0]})
+						.attr("y1", function(d) {
+				          return projection(d)[1]})
+						.attr("x2", function(d) {
+				          return projection(d)[0]})
+						.attr("y2",height)
+						.style("stroke", "black");
 
-  var popAxis = d3.axisLeft(popScale)
-  svg1.append("g")
-    .attr("transform", "translate(40, 0)")
-    .call(popAxis);
+					}
+				})
+			</script>
+			<svg height="400" width="1000" id="graph1">
+			</svg>
+			<script>
+				var svg1 = d3.select(graph1);
 
-  var longitudeAxis = d3.axisBottom(longitudeScale)
-  svg1.append("g")
-    .attr("transform", "translate(0, 360)")
-    .call(longitudeAxis);
+				var socialMediaData;
 
-  var followersScale = d3.scaleLinear()
-    .domain([10021649, 98247052])
-    .range([15, 50])
+				d3.json("data/Merged_Data_Feb21.json", function (error, data) {
+					socialMediaData = data;
+					
+					var popExtent = d3.extent(socialMediaData, function (d) { 
+						return d.lgPop;
+				})
+					var popScale = d3.scaleLinear()
+				    	.domain([5, 10])
+				    	.range([360, 40]);
 
-  var approvalExtent = d3.extent(socialMediaData, function (d) { 
-    return d.approvalRatings
-  })
+				var longitudeExtent = d3.extent(socialMediaData, function (d) { 
+					return d.capitalLongitude;
+				})
+				var longitudeScale = d3.scaleLinear()
+				    .domain(longitudeExtent)
+				    .range([0, 1000]);
 
-  var approvalScale = d3.scaleLinear()
-    .domain(approvalExtent)
-    .range([0,1])
+				var popAxis = d3.axisLeft(popScale);
+				svg1.append("g")
+				.attr("transform", "translate(40, 0)")
+				.call(popAxis);
 
-  svg1.append("text")
-    .attr("x", 500)
-    .attr("y", 390)
-    .style("font-family", "Palatino")
-    .style("font-size", "11px")
-    .style("alignment-baseline", "middle")
-    .style("text-anchor", "middle")
-    .text("Longitude")
+				var longitudeAxis = d3.axisBottom(longitudeScale);
+				svg1.append("g")
+				.attr("transform", "translate(0, 360)")
+				.call(longitudeAxis);
 
-  svg1.append("text")
-    .attr("x", 60)
-    .attr("y", 20)
-    .style("font-family", "Palatino")
-    .style("font-size", "11px")
-    .style("alignment-baseline", "middle")
-    .style("text-anchor", "middle")
-    .text("Population (Log Scale)")
+				var followersScale = d3.scaleLinear()
+				.domain([10021649, 98247052])
+				.range([15, 50])
 
-  socialMediaData.forEach(function (d) {
-      if (d.totalFollowers != 0) {
-          if (d.totalFollowers >= 10021649) { 
-            svg1.append("circle")
-              .attr("cx", longitudeScale(d.capitalLongitude))
-              .attr("cy", popScale(d.lgPop))
-              .attr("r", followersScale(d.totalFollowers))
-              .style("fill", "#FF4C4C")
-              .style("opacity", approvalScale(d.approvalRatings))
-            svg1.append("text")
-              .attr("x", longitudeScale(d.capitalLongitude)+5)
-              .attr("y", popScale(d.lgPop)-0.8)
-              .style("font-family", "Palatino")
-              .style("font-size", "10px")
-              .style("alignment-baseline", "middle")
-              .text(d.worldLeader)
-          }
-          else {
-            svg1.append("circle")
-              .attr("cx", longitudeScale(d.capitalLongitude))
-              .attr("cy", popScale(d.lgPop))
-              .attr("r", 3)
-              .style("fill", "#FF4C4C")
-              .style("opacity", approvalScale(d.approvalRatings))
-          }
-      }
-  })
-})
+				var approvalExtent = d3.extent(socialMediaData, function (d) { 
+					return d.approvalRatings;
+				})
+
+				var approvalScale = d3.scaleLinear()
+				.domain(approvalExtent)
+				.range([0,1]);
+
+				svg1.append("text")
+					.attr("x", 500)
+				    .attr("y", 390)
+				    .style("font-family", "Palatino")
+				    .style("font-size", "11px")
+				    .style("alignment-baseline", "middle")
+				    .style("text-anchor", "middle")
+				    .text("Longitude");
+
+				svg1.append("text")
+				    .attr("x", 60)
+				    .attr("y", 20)
+				    .style("font-family", "Palatino")
+				    .style("font-size", "11px")
+				    .style("alignment-baseline", "middle")
+				    .style("text-anchor", "middle")
+				    .text("Population (Log Scale)");
+
+				socialMediaData.forEach(function (d) {
+				    if (d.totalFollowers != 0) {
+				        if (d.totalFollowers >= 10021649) { 
+				            svg1.append("circle")
+				           	.attr("cx", longitudeScale(d.capitalLongitude))
+				            .attr("cy", popScale(d.lgPop))
+				            .attr("r", followersScale(d.totalFollowers))
+				            .style("fill", "#FF4C4C")
+				            .style("opacity", approvalScale(d.approvalRatings));
+
+				            svg1.append("text")
+				            .attr("x", longitudeScale(d.capitalLongitude)+5)
+				            .attr("y", popScale(d.lgPop)-0.8)
+				            .style("font-family", "Palatino")
+				            .style("font-size", "10px")
+				            .style("alignment-baseline", "middle")
+				            .text(d.worldLeader);
+
+				            console.log(d.capitalLongitude);
+
+				            svg1.append("line")
+				            .attr("x1",longitudeScale(d.capitalLongitude))
+				            .attr("x2",longitudeScale(d.capitalLongitude))
+				            .attr("y1",0)
+				            .attr("y2",popScale(d.lgPop))
+				            .style("opacity", 0.15)
+				            .style("stroke", "black");
+				        }
+				        else {
+				            svg1.append("circle")
+				            .attr("cx", longitudeScale(d.capitalLongitude))
+				            .attr("cy", popScale(d.lgPop))
+				            .attr("r", 3)
+				            .style("fill", "#FF4C4C")
+				            .style("opacity", approvalScale(d.approvalRatings))
+				        }
+				    }
+				})
+
+				/**lines for top 10 leaders
+				var specialLines1 = svg1.selectAll("line").data(specialCapitals);
+
+				specialLines1 = specialLines1.enter().append("line")
+				.style("opacity", 0.15)
+				.merge(specialLines1);
+
+				specialLines1
+				.attr("x1", function(d) {
+				    return longitudeScale(d.capitalLongitude)})
+				.attr("y1", 0)
+				.attr("x2", function(d) {
+				    return longitudeScale(d.capitalLongitude)})
+				.attr("y2",popScale(d.lgPop))
+				.style("stroke", "black");**/
+
+			})
 
 
-</script>
-</p>
-</body>
+			</script>
+		</p>
+	</body>
 </html>
