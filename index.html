@@ -24,6 +24,7 @@
 		2) Sheikh not in 2/3 graphs (no bubbles) <br> 
 		3) lines not aligned <br>
 		4) Text sometimes overlaps/hard to read.<br>
+		5) Right side of map: 4 points; Right side of red graph: 1 point; Right side of blue graph: 3 points<br>
 		</h3>
 
 		<p id=“project1”> 
@@ -389,7 +390,7 @@
 					    .style("fill", "orange")
 					    .style("alignment-baseline", "middle")
 					    .style("text-anchor", "middle")
-					    .text("Max Age: " + ageMin + "(Sebastian Kurz)");
+					    .text("Min Age: " + ageMin + "(Sebastian Kurz)");
 
 
 					socialMediaData1.forEach(function (d) {
@@ -432,16 +433,18 @@
 				});
 			</script>
 
-			<svg height="400" width="1000" id="graph3">
-			</svg>
-			<script type="text/javascript">
-				var svg3 = d3.select("#graph3");
-
-				var socialMediaData2;
-
+			<div id='stacked-bar'></div>
+			<script type="text/javascript" id="graph3">
 				d3.json("data/Merged_Data_Feb21.json", function (error, data) {
 					socialMediaData2 = data;
-
+					var top10Countries = [null];
+					var Countries = d3.extent(socialMediaData2, function (d) { 
+						if (d.totalFollowers != 0) {
+							if (d.totalFollowers >= 10021649) { 
+									top10Countries.push(d.country);
+							}
+						}
+					});
 					var totalFollowers = d3.extent(socialMediaData2, function (d) { 
 						return d.totalFollowers;
 					});
@@ -454,95 +457,123 @@
 					var InstagramFollowers = d3.extent(socialMediaData2, function (d) { 
 						return d.instagramFollowers;
 					});
-					var top10Countries = [null];
-					var Countries = d3.extent(socialMediaData2, function (d) { 
-						 if (d.totalFollowers != 0) {
-					        if (d.totalFollowers >= 10021649) { 
-								top10Countries.push(d.country);
-							}
-						}
-					});
 
 					//Statistics of Followers
 					var followersMax = Math.max.apply(null,totalFollowers);
 					var followersMin = Math.min.apply(null,totalFollowers);
 
-					var followersScale3 = d3.scaleLinear()
-					.domain([followersMin, followersMax])
-					.range([360, 40]);
 
-					var followersAxis1 = d3.axisLeft(followersScale3).tickFormat(function(d,i){ return Math.floor(d)/1000000 });
+					var xData = ["India", "United States", "Vatican City", "Indonesia", "Argentina", "Turkey", "United Arab Emirates", "Canada", "Mexico", "Russia"];
+
+					var dataByCountryStack = [
+								[	
+									{"x":0, "y0":0, "y":4931867+43201619},
+									{"x":1, "y0":0, "y":23126205},
+									{"x":2, "y0":0, "y":0},
+									{"x":3, "y0":0, "y":8010255},
+									{"x":4, "y0":0, "y":4507652},
+									{"x":5, "y0":0, "y":8941440+425125},
+									{"x":6, "y0":0, "y":3770528},
+									{"x":7, "y0":0, "y":5554786+4135788+21877},
+									{"x":8, "y0":0, "y":5540710},
+									{"x":9, "y0":0, "y":1443723}
+								],
+								[
+									{"x":0, "y0":4931867+43201619, "y":40231657},
+									{"x":1, "y0":23126205, "y":47801783},
+									{"x":2, "y0":0, "y":45248276},
+									{"x":3, "y0":8010255, "y":9634150},
+									{"x":4, "y0":4507652, "y":4702549},
+									{"x":5, "y0":8941440+425125, "y":12446840},
+									{"x":6, "y0":3770528, "y":8697675},
+									{"x":7, "y0":5554786+4135788+21877, "y":3970003+3471078+62959},
+									{"x":8, "y0":5540710, "y":7078859},
+									{"x":9, "y0":1443723, "y":5467787}
+								],
+								[
+									{"x":0, "y0":4931867+43201619+40231657, "y":11581545},
+									{"x":1, "y0":23126205+47801783, "y":8433374},
+									{"x":2, "y0":0+45248276, "y":5255586},
+									{"x":3, "y0":8010255+9634150, "y":7957893},
+									{"x":4, "y0":4507652+4702549, "y":780507},
+									{"x":5, "y0":8941440+425125+12446840, "y":3282239},
+									{"x":6, "y0":3770528+8697675, "y":0},
+									{"x":7, "y0":5554786+4135788+21877+3970003+3471078+62959, "y":1976544+1326821},
+									{"x":8, "y0":5540710+7078859, "y":310777},
+									{"x":9, "y0":1443723+5467787, "y":2933426}
+								]
+							];
+					 
+					var width = 1000;
+					var height = 400;
+
+					var svg3 = d3.select("body").append("svg")
+					        .attr("width", width)
+					        .attr("height", height)
+					        .append("g")
+					        .attr("transform", "translate(40,0)");
+					 
+					var colors = d3.scaleOrdinal().range(["#3b5998", "#1dcaff", "#cd486b"]);
+
+					var yScale = d3.scaleLinear()
+						.domain([0,d3.max(dataByCountryStack[dataByCountryStack.length - 1],function (d) { return d.y0 + d.y;})])
+						.range([360, 40]);
+
+					var yAxis = d3.axisLeft(yScale).tickFormat(function(d,i){ return Math.floor(d)/1000000 });
 					svg3.append("g")
-					.attr("transform", "translate(40, 0)")
-					.call(followersAxis1);
+						.attr("transform", "translate(0, 0)")
+						.call(yAxis);
 
-					var countryScale = d3.scaleLinear()
-					.domain([0, 10])
-					.range([40, 1000]);
+					var xScale = d3.scaleLinear()
+						.domain([-1,10])
+						.range([0, 1000]);
 
-					var countryAxis = d3.axisBottom(countryScale).tickValues([0,1,2,3,4,5,6,7,8,9])
-					.tickFormat(function(d,i){ return top10Countries[i] });
+					var xAxis = d3.axisBottom(xScale).tickValues([0,1,2,3,4,5,6,7,8,9,10])
+						.tickFormat(function(d,i){ return xData[i] });
 					svg3.append("g")
-					.attr("transform", "translate(0, 360)")
-					.call(countryAxis);
+						.attr("transform", "translate(0, 360)")
+						.call(xAxis);
 
 					svg3.append("text")
-					    .attr("x", 60)
-					    .attr("y", 20)
-					    .style("font-family", "Palatino")
-					    .style("font-size", "11px")
-					    .style("alignment-baseline", "middle")
-					    .style("text-anchor", "middle")
-					    .text("Followers in Millions");
+						.attr("x", 20)
+						.attr("y", 20)
+						.style("font-family", "Palatino")
+						.style("font-size", "11px")
+						.style("alignment-baseline", "middle")
+						.style("text-anchor", "middle")
+						.text("Followers (in Millions)");
 
 					svg3.append("text")
 						.attr("x", 500)
-					    .attr("y", 390)
-					    .style("font-family", "Palatino")
-					    .style("font-size", "11px")
-					    .style("alignment-baseline", "middle")
-					    .style("text-anchor", "middle")
-					    .text("Country");
-
-
-					/**socialMediaData2.forEach(function (d) {
-					    if (d.totalFollowers != 0) {
-					        if (d.totalFollowers >= 10021649) { 
-					            svg3.append("circle")
-					           	.attr("cx", longitudeScale2(d.capitalLongitude))
-					            .attr("cy", ageScale(d.age))
-					            .attr("r", followersScale2(d.totalFollowers))
-					            .style("fill", colorThirdGraph(d))
-					            .style("opacity", approvalScale2(d.approvalRatings));
-
-					            svg3.append("text")
-					            .attr("x", longitudeScale2(d.capitalLongitude)+5)
-					            .attr("y", ageScale(d.age)-0.8)
-					            .style("font-family", "Palatino")
-					            .style("font-size", "10px")
-					            .style("alignment-baseline", "middle")
-					            .text(d.worldLeader);
-
-					            svg3.append("line")
-					            .attr("x1",longitudeScale2(d.capitalLongitude))
-					            .attr("x2",longitudeScale2(d.capitalLongitude))
-					            .attr("y1",0)
-					            .attr("y2",ageScale(d.age))
-					            .style("opacity", 0.15)
-					            .style("stroke", "black");
-					        }
-					        else {
-					            svg3.append("circle")
-					            .attr("cx", longitudeScale2(d.capitalLongitude))
-					            .attr("cy", ageScale(d.age))
-					            .attr("r", 3)
-					            .style("fill", colorThirdGraph(d))
-					            .style("opacity", approvalScale2(d.approvalRatings));
-					        };
-					    };
-					});**/
-				});
-
+						.attr("y", 390)
+						.style("font-family", "Palatino")
+						.style("font-size", "11px")
+						.style("alignment-baseline", "middle")
+						.style("text-anchor", "middle")
+						.text("Country");
+					 
+					var layer = svg3.selectAll(".stack")
+					        .data(dataByCountryStack)
+					        .enter().append("g")
+					        .attr("class", "stack")
+					        .attr("fill", function(d, i) { return colors(i); });
+					 
+					layer.selectAll("rect")
+					        .data(function (d) {
+					            return d;
+					        })
+					        .enter().append("rect")
+					        .attr("x", function (d) {
+					            return xScale(d.x) - 40;
+					        })
+					        .attr("y", function (d) {
+					            return yScale(d.y + d.y0);
+					        })
+					        .attr("height", function (d) {
+					            return yScale(d.y0) - yScale(d.y + d.y0);
+					        })
+					        .attr("width", 80);
+				});					
 
 			</script>
 		</p>
