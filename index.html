@@ -103,11 +103,7 @@
 				    	circles = circles.enter().append("circle")
 				    		.style("fill", "#FF4C4C")
 				    		.style("opacity", 0.85)
-				    		.merge(circles)
-							.on("click", function(d) {
-				  					console.log(d[0])
-				  					console.log(d[1])
-				  				});
+				    		.merge(circles);
 
 				    	circles.attr("cx", function(d) {
 				      		return projection(d)[0];
@@ -127,11 +123,7 @@
 				    	specialCircles = specialCircles.enter().append("circle")
 				    		.style("fill", "#FF4C4C")
 				    		.style("opacity", 0.85)
-				    		.merge(specialCircles)
-							.on("click", function(d) {
-				  					console.log(d[0])
-				  					console.log(d[1])
-				  				});
+				    		.merge(specialCircles);
 
 				    	specialCircles
 				    	.attr("cx", function(d) {
@@ -561,7 +553,6 @@
 					 
 					layer.selectAll("rect")
 					        .data(function (d) {
-					        	console.log(d)
 					            return d;
 					        })
 					        .enter().append("rect")
