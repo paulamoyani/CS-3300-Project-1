@@ -143,7 +143,8 @@
 				   		var specialLines = svg.selectAll("line").data(specialCapitals)
 
 				   		specialLines = specialLines.enter().append("line")
-				    		.style("opacity", 0.15)
+				    		.style("opacity", 0.3)
+				    		.style("stroke-dasharray","5,5")
 				    		.merge(specialLines);
 
 				    	specialLines
@@ -158,6 +159,7 @@
 					};
 				});
 			</script>
+
 			<svg height="400" width="1000" id="graph1">
 			</svg>
 			<script type="text/javascript">
@@ -246,7 +248,8 @@
 					            .attr("x2",longitudeScale(d.capitalLongitude))
 					            .attr("y1",0)
 					            .attr("y2",height)
-					            .style("opacity", 0.15)
+					            .style("opacity", 0.3)
+					            .style("stroke-dasharray","5,5")
 					            .style("stroke", "black");
 					        }
 					        else {
@@ -412,7 +415,8 @@
 					            .attr("x2",longitudeScale1(d.capitalLongitude))
 					            .attr("y1",0)
 					            .attr("y2",ageScale(d.age))
-					            .style("opacity", 0.15)
+					            .style("opacity", 0.3)
+					            .style("stroke-dasharray","5,5")
 					            .style("stroke", "black");
 					        }
 					        else {
@@ -450,10 +454,11 @@
 					var InstagramFollowers = d3.extent(socialMediaData2, function (d) { 
 						return d.instagramFollowers;
 					});
-					var top10Countries = d3.extent(socialMediaData2, function (d) { 
+					var top10Countries = [null];
+					var Countries = d3.extent(socialMediaData2, function (d) { 
 						 if (d.totalFollowers != 0) {
 					        if (d.totalFollowers >= 10021649) { 
-								return d.country;
+								top10Countries.push(d.country);
 							}
 						}
 					});
@@ -462,14 +467,11 @@
 					var followersMax = Math.max.apply(null,totalFollowers);
 					var followersMin = Math.min.apply(null,totalFollowers);
 
-					console.log(followersMax);
-
 					var followersScale3 = d3.scaleLinear()
 					.domain([followersMin, followersMax])
 					.range([360, 40]);
 
-
-					var followersAxis1 = d3.axisLeft(followersScale2);
+					var followersAxis1 = d3.axisLeft(followersScale3).tickFormat(function(d,i){ return Math.floor(d)/1000000 });
 					svg3.append("g")
 					.attr("transform", "translate(40, 0)")
 					.call(followersAxis1);
@@ -478,13 +480,32 @@
 					.domain([0, 10])
 					.range([40, 1000]);
 
-					var countryAxis = d3.axisBottom(top10Countries);
+					var countryAxis = d3.axisBottom(countryScale).tickValues([0,1,2,3,4,5,6,7,8,9])
+					.tickFormat(function(d,i){ return top10Countries[i] });
 					svg3.append("g")
 					.attr("transform", "translate(0, 360)")
 					.call(countryAxis);
 
+					svg3.append("text")
+					    .attr("x", 60)
+					    .attr("y", 20)
+					    .style("font-family", "Palatino")
+					    .style("font-size", "11px")
+					    .style("alignment-baseline", "middle")
+					    .style("text-anchor", "middle")
+					    .text("Followers in Millions");
 
-					socialMediaData2.forEach(function (d) {
+					svg3.append("text")
+						.attr("x", 500)
+					    .attr("y", 390)
+					    .style("font-family", "Palatino")
+					    .style("font-size", "11px")
+					    .style("alignment-baseline", "middle")
+					    .style("text-anchor", "middle")
+					    .text("Country");
+
+
+					/**socialMediaData2.forEach(function (d) {
 					    if (d.totalFollowers != 0) {
 					        if (d.totalFollowers >= 10021649) { 
 					            svg3.append("circle")
@@ -519,11 +540,11 @@
 					            .style("opacity", approvalScale2(d.approvalRatings));
 					        };
 					    };
-					});
+					});**/
 				});
 
 
-			
+			</script>
 		</p>
 	</body>
 </html>
