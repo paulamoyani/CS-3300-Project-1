@@ -4,6 +4,7 @@
 		<script src="https://d3js.org/d3.v4.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
 		<script src="http://d3js.org/topojson.v2.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.13.0/d3-legend.js"></script>
 		<script src="js/functions.js" type="text/javascript"></script>
 		<style>
 			body {font-family: 'Alegreya Sans', Calibri, sans-serif; text-anchor: 'middle'; dominant-baseline: 'central';}
@@ -573,6 +574,21 @@
 					            return yScale(d.y0) - yScale(d.y + d.y0);
 					        })
 					        .attr("width", 80);
+
+					var colorLegend = d3.legendColor()
+				        .labelFormat(d3.format(".0f"))
+				        .scale(colors)
+				        .shapePadding(5)
+				        .shapeWidth(50)
+				        .shapeHeight(20)
+				        .labelOffset(-100)
+				        .labels(["Facebook", "Twitter", "Instagram"]);
+
+				      svg3.append("g")
+				        .attr("transform", "translate(900, 60)")
+				        .attr("font-family", "Palatino")
+				        .attr("font-size", 10)
+				        .call(colorLegend);
 				});					
 
 			</script>
