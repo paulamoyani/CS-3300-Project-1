@@ -428,11 +428,11 @@
 			<script type="text/javascript" id="graph3">
 				d3.json("data/Merged_Data_Feb21.json", function (error, data) {
 					socialMediaData2 = data;
-					var top10Countries = [null];
-					var Countries = d3.extent(socialMediaData2, function (d) { 
+					var top10Leaders = [null];
+					var Leaders = d3.extent(socialMediaData2, function (d) { 
 						if (d.totalFollowers != 0) {
 							if (d.totalFollowers >= 10021649) { 
-									top10Countries.push(d.country);
+									top10Leaders.push(d.worldLeader);
 							}
 						}
 					});
@@ -454,43 +454,43 @@
 					var followersMin = Math.min.apply(null,totalFollowers);
 
 
-					var xData = ["Mexico", "United States", "Canada", "Argentina", "Vatican City", "Turkey", "Russia", "United Arab Emirates", "India", "Indonesia"];
-
-					var dataByCountryStack = [
+					var xData = ["Enrique Peña Nieto", "Donald Trump", "Justin Trudeau", "Mauricio Macri", "Pope Francis", "Recep Tayyip Erdoğan", "Dmitry Medvedev", "Sheikh Mohammed bin Rashid Al Maktoum", "Narendra Modi", "Joko Widodo"];
+					console.log(top10Leaders);
+					var dataByCountryStack = [ //LISTOS: 
 								[	
 									{"x":0, "y0":0, "y":5540710}, //Mexico
 									{"x":1, "y0":0, "y":23126205}, //Unites States
-									{"x":2, "y0":0, "y":5554786+4135788+21877}, //Canada
+									{"x":2, "y0":0, "y":5554786}, //Canada
 									{"x":3, "y0":0, "y":4507652}, //Argentina
 									{"x":4, "y0":0, "y":0}, //Vatican City
-									{"x":5, "y0":0, "y":8941440+425125}, //Turkey
+									{"x":5, "y0":0, "y":8941440}, //Turkey
 									{"x":6, "y0":0, "y":1443723}, //Russia
 									{"x":7, "y0":0, "y":3770528}, //United Arab Emirates
-									{"x":8, "y0":0, "y":4931867+43201619}, //India
+									{"x":8, "y0":0, "y":43201619}, //India
 									{"x":9, "y0":0, "y":8010255}, //Indonesia
 								],
 								[
 									{"x":0, "y0":5540710, "y":7078859}, //Mexico
 									{"x":1, "y0":23126205, "y":47801783}, //Unites States
-									{"x":2, "y0":5554786+4135788+21877, "y":3970003+3471078+62959}, //Canada
+									{"x":2, "y0":5554786, "y":3970003}, //Canada
 									{"x":3, "y0":4507652, "y":4702549}, //Argentina
 									{"x":4, "y0":0, "y":45248276}, //Vatican City
-									{"x":5, "y0":8941440+425125, "y":12446840}, //Turkey
+									{"x":5, "y0":8941440, "y":12446840}, //Turkey
 									{"x":6, "y0":1443723, "y":5467787}, //Russia
 									{"x":7, "y0":3770528, "y":8697675}, //United Arab Emirates
-									{"x":8, "y0":4931867+43201619, "y":40231657}, //India
+									{"x":8, "y0":43201619, "y":40231657}, //India
 									{"x":9, "y0":8010255, "y":9634150}, //Indonesia
 								],
 								[
 									{"x":0, "y0":5540710+7078859, "y":310777}, //Mexico
 									{"x":1, "y0":23126205+47801783, "y":8433374}, //Unites States
-									{"x":2, "y0":5554786+4135788+21877+3970003+3471078+62959, "y":1976544+1326821}, //Canada
+									{"x":2, "y0":5554786+3970003, "y":1976544}, //Canada
 									{"x":3, "y0":4507652+4702549, "y":780507}, //Argentina
 									{"x":4, "y0":0+45248276, "y":5255586}, //Vatican City
-									{"x":5, "y0":8941440+425125+12446840, "y":3282239}, //Turkey
+									{"x":5, "y0":8941440+12446840, "y":3282239}, //Turkey
 									{"x":6, "y0":1443723+5467787, "y":2933426}, //Russia
 									{"x":7, "y0":3770528+8697675, "y":0}, //United Arab Emirates
-									{"x":8, "y0":4931867+43201619+40231657, "y":11581545}, //India
+									{"x":8, "y0":43201619+40231657, "y":11581545}, //India
 									{"x":9, "y0":8010255+9634150, "y":7957893}, //Indonesia
 								]
 							];
