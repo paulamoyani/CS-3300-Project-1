@@ -29,7 +29,7 @@
 		</h3>
 
 		<p id=“project1”> 
-			<svg height="480" width="1000" id="mapView">
+			<svg height="480" width="1200" id="mapView">
 			</svg>
 			<script type="text/javascript">
 				var svg = d3.select(mapView);
@@ -83,7 +83,7 @@
 				  	});
 
 					function showMap() {
-				  		projection.fitExtent([[0,0], [width, height]], countries);
+				  		projection.fitExtent([[-31,0], [1020, 490]], countries);
 				  		pathGenerator = d3.geoPath().projection(projection);
 
 				  		var paths = svg.selectAll("path.country")
@@ -102,7 +102,7 @@
 
 				    	circles = circles.enter().append("circle")
 				    		.style("fill", "#FF4C4C")
-				    		.style("opacity", 0.85)
+				    		.style("opacity", 0.75)
 				    		.merge(circles);
 
 				    	circles.attr("cx", function(d) {
@@ -394,7 +394,7 @@
 					            .attr("cy", ageScale(d.age))
 					            .attr("r", followersScale1(d.totalFollowers))
 					            .style("fill", colorThirdGraph(d))
-					            .style("opacity", approvalScale1(d.approvalRatings));
+					            .style("opacity", .75);
 
 					            svg2.append("text")
 					            .attr("x", longitudeScale1(d.capitalLongitude)+5)
@@ -419,7 +419,7 @@
 					            .attr("cy", ageScale(d.age))
 					            .attr("r", 3)
 					            .style("fill", colorThirdGraph(d))
-					            .style("opacity", approvalScale1(d.approvalRatings));
+					            .style("opacity", .75);
 					        };
 					    };
 					});
