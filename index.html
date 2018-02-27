@@ -1,6 +1,7 @@
 <html>
 	<head>
 		<title> World Leaders and their Social Media Accounts </title>
+		<meta charset="utf-8">
 		<script src="https://d3js.org/d3.v4.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
 		<script src="http://d3js.org/topojson.v2.min.js"></script>
@@ -500,7 +501,7 @@
 
 					var svg3 = d3.select("body").append("svg")
 					        .attr("width", width)
-					        .attr("height", height)
+					        .attr("height", 500)
 					        .append("g")
 					        .attr("transform", "translate(40,0)");
 					 
@@ -523,7 +524,10 @@
 						.tickFormat(function(d,i){ return xData[i] });
 					svg3.append("g")
 						.attr("transform", "translate(0, 360)")
-						.call(xAxis);
+						.call(xAxis)
+						.selectAll("text")
+						.attr("transform", "rotate(20)")
+						 .style("text-anchor", "start");
 
 					svg3.append("text")
 						.attr("x", 20)
@@ -536,12 +540,12 @@
 
 					svg3.append("text")
 						.attr("x", 500)
-						.attr("y", 390)
+						.attr("y", 420)
 						.style("font-family", "Palatino")
 						.style("font-size", "11px")
 						.style("alignment-baseline", "middle")
 						.style("text-anchor", "middle")
-						.text("Country");
+						.text("Leaders");
 					 
 					var layer = svg3.selectAll(".stack")
 					        .data(dataByCountryStack)
