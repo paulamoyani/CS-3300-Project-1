@@ -1,5 +1,8 @@
 function colorThirdGraph(person){
-	if (Math.max(person.facebookLikes, person.twitterFollowers, person.instagramFollowers) == person.facebookLikes){
+	if (person.totalFollowers == 0) {
+		return "#C0C0C0";
+	}
+	else if (Math.max(person.facebookLikes, person.twitterFollowers, person.instagramFollowers) == person.facebookLikes){
 		return "#3b5998";
 	}
 	else if (Math.max(person.facebookLikes, person.twitterFollowers, person.instagramFollowers) == person.twitterFollowers){

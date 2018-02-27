@@ -64,7 +64,7 @@
 
 					//To create larger circles for top 10 leaders
 					var followersScale = d3.scaleLinear()
-				    	.domain([10021649, 98247052])
+				    	.domain([0, 98247052])
 				    	.range([15, 50]);
 
 					var specialCapitals = []
@@ -189,7 +189,7 @@
 					.call(longitudeAxis);
 
 					var followersScale = d3.scaleLinear()
-					.domain([10021649, 98247052])
+					.domain([0, 98247052])
 					.range([15, 50]);
 
 					var approvalExtent = d3.extent(socialMediaData0, function (d) { 
@@ -301,7 +301,7 @@
 					.call(longitudeAxis1);
 
 					var followersScale1 = d3.scaleLinear()
-					.domain([10021649, 98247052])
+					.domain([0, 98247052])
 					.range([15, 50]);
 
 					var approvalExtent1 = d3.extent(socialMediaData1, function (d) { 
@@ -393,7 +393,8 @@
 					            .attr("cy", ageScale(d.age))
 					            .attr("r", followersScale1(d.totalFollowers))
 					            .style("fill", colorThirdGraph(d))
-					            .style("opacity", .75);
+					            .style("opacity", .75)
+					            .on("click", function() {console.log(d.worldLeader)});
 
 					            svg2.append("text")
 					            .attr("x", longitudeScale1(d.capitalLongitude)+5)
@@ -418,9 +419,20 @@
 					            .attr("cy", ageScale(d.age))
 					            .attr("r", 3)
 					            .style("fill", colorThirdGraph(d))
-					            .style("opacity", .75);
+					            .style("opacity", .75)
+					            .on("click", function() {console.log(d.worldLeader)});
 					        };
+					    }
+					    else {
+					    	svg2.append("circle")
+					            .attr("cx", longitudeScale1(d.capitalLongitude))
+					            .attr("cy", ageScale(d.age))
+					            .attr("r", 3)
+					            .style("fill", colorThirdGraph(d))
+					            .style("opacity", .75)
+					            .on("click", function() {console.log(d.worldLeader)});
 					    };
+					    
 					});
 				});
 			</script>
@@ -456,7 +468,7 @@
 
 
 					var xData = ["Enrique Peña Nieto", "Donald Trump", "Justin Trudeau", "Mauricio Macri", "Pope Francis", "Recep Tayyip Erdoğan", "Dmitry Medvedev", "Sheikh Mohammed bin Rashid Al Maktoum", "Narendra Modi", "Joko Widodo"];
-					console.log(top10Leaders);
+
 					var dataByCountryStack = [ //LISTOS: 
 								[	
 									{"x":0, "y0":0, "y":5540710}, //Mexico
