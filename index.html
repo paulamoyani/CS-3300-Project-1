@@ -28,6 +28,15 @@
 		</h3>
 
 		<p id=“project1”> 
+
+
+
+			<!--    				Map for world leaders with social media followers
+
+									Same format as David Mimno's class on maps and projections (Friday, February 16, 2018)
+
+			-->
+
 			<svg height="480" width="1200" id="mapView">
 			</svg>
 			<script type="text/javascript">
@@ -153,6 +162,13 @@
 				});
 			</script>
 
+
+			<!--    				Population (Log) vs. Longitude Graph
+
+									
+
+			-->
+
 			<svg height="400" width="1000" id="graph1">
 			</svg>
 			<script type="text/javascript">
@@ -258,6 +274,13 @@
 				});
 
 			</script>
+
+
+			<!--    				Age vs. Longitude Graph
+
+									Same format as the graph above
+
+			-->
 
 			<svg height="400" width="1000" id="graph2">
 			</svg>
@@ -437,6 +460,15 @@
 				});
 			</script>
 
+
+
+
+			<!--    				Stacked Bars
+
+									Used Abhisek Jana's explanation as a guide for building this graph:
+									http://www.adeveloperdiary.com/d3-js/create-stacked-bar-chart-using-d3-js/
+
+			-->
 			<div id='stacked-bar'></div>
 			<script type="text/javascript" id="graph3">
 				d3.json("data/Merged_Data_Feb21.json", function (error, data) {
@@ -581,6 +613,9 @@
 					        })
 					        .attr("width", 80);
 
+
+
+					// Susie Lu's Legend (http://d3-legend.susielu.com/)
 					var colorLegend = d3.legendColor()
 				        .labelFormat(d3.format(".0f"))
 				        .scale(colors)
@@ -590,7 +625,7 @@
 				        .labelOffset(-100)
 				        .labels(["Facebook", "Twitter", "Instagram"]);
 
-				      svg3.append("g")
+				    svg3.append("g")
 				        .attr("transform", "translate(60, 60)")
 				        .attr("font-family", "Palatino")
 				        .attr("font-size", 10)
