@@ -20,12 +20,12 @@
 	</head>
 
 	<body>
-		<h2>CS3300: Project 1</0h2> 
-		<h3><u>Issues:</u> <br> 1) Pope not in 2/3 graphs (notice line doesn't end) <br> 
-		2) Sheikh not in 2/3 graphs (no bubbles) <br> 
-		3) lines not aligned <br>
-		4) Text sometimes overlaps/hard to read.<br>
-		5) Right side of map: 4 points; Right side of red graph: 1 point; Right side of blue graph: 3 points<br>
+		<h1>CS3300: Project 1</h1> 
+		<h3>Danyal Motiwalla (djm453), Paula Moya Nieto (pm445), Rachel Yunyann Liu (rl544)</h3>
+		<h3><u>Issues:</u> <br> 1) Pope and Sheikh not in 2/3 graphs <br> 
+		2) lines not aligned <br>
+		3) Text sometimes overlaps/hard to read.<br>
+		4) Right side of map: 4 points; Right side of red graph: 1 point; Right side of blue graph: 3 points<br>
 		</h3>
 
 		<p id=“project1”> 
@@ -169,7 +169,7 @@
 					});
 
 					var popScale = d3.scaleLinear()
-					.domain([5, 10])
+					.domain([0, 10])
 					.range([360, 40]);
 
 					var longitudeExtent = d3.extent(socialMediaData0, function (d) { 
@@ -365,7 +365,7 @@
 					    .style("fill", "red")
 					    .style("alignment-baseline", "middle")
 					    .style("text-anchor", "middle")
-					    .text("Max Age: " + ageMax + "(Queen Elizabeth II)");
+					    .text("Max Age: " + ageMax + " (Queen Elizabeth II)");
 
 					//Line for Min Age
 					svg2.append("line")
@@ -383,7 +383,7 @@
 					    .style("fill", "orange")
 					    .style("alignment-baseline", "middle")
 					    .style("text-anchor", "middle")
-					    .text("Min Age: " + ageMin + "(Sebastian Kurz)");
+					    .text("Min Age: " + ageMin + " (Sebastian Kurz)");
 
 
 					socialMediaData1.forEach(function (d) {
