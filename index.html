@@ -75,8 +75,19 @@
 			</svg>
 			<script type="text/javascript">
 				var svg = d3.select(mapView);
-
-				var width = 1010;
+                
+                svg.append("text")
+						.attr("x", -20)
+					    .attr("y", 0)
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "16px")
+                        .style("font-style", "italic")
+					    .style("alignment-baseline", "hanging")
+					    .style("text-anchor", "start")
+                        .style("fill", "#C1C1C1")
+					    .text("TOTAL NO. OF FOLLOWERS");
+				
+                var width = 1010;
 				var height = 480;
 
 				var projection = d3.geoEquirectangular().scale(75);
@@ -125,7 +136,7 @@
 				  	});
 
 					function showMap() {
-				  		projection.fitExtent([[-31,0], [1020, 490]], countries);
+				  		projection.fitExtent([[-31,70], [1020, 560]], countries);
 				  		pathGenerator = d3.geoPath().projection(projection);
 
 				  		var paths = svg.selectAll("path.country")
@@ -144,7 +155,7 @@
 				    	var circles = svg.selectAll("circle").data(leadersWithFollowers)
 
 				    	circles = circles.enter().append("circle")
-				    		.style("fill", "#FF4C4C")
+				    		.style("fill", "#black")
 				    		.style("opacity", 0.75)
 				    		.merge(circles);
 
@@ -176,8 +187,7 @@
 						.attr("r", function(d) {
 				    		return followersScale((d)[2]); })
                     
-                    //country names for top 10 leaders
-
+                    //points for top 10 leaders
 
                     
                         
@@ -212,6 +222,17 @@
 			<script type="text/javascript">
 				var svg1 = d3.select("#graph1");
 
+                svg1.append("text")
+						.attr("x", -20)
+					    .attr("y", 40)
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "16px")
+                        .style("font-style", "italic")
+					    .style("alignment-baseline", "middle")
+					    .style("text-anchor", "start")
+                        .style("fill", "#C1C1C1")
+					    .text("BY POPULATION SIZE & APPROVAL RATINGS");
+                
 				var socialMediaData0;
 
 				d3.json("data/Merged_Data_Feb21.json", function (error, data) {
@@ -232,20 +253,6 @@
 					    .domain(longitudeExtent)
 					    .range([0, 1000]);
 
-					var popAxis = d3.axisLeft(popScale);
-					var popTicks = svg1.append("g")
-					.attr("transform", "translate(40, 50)")
-					.call(popAxis);
-                    
-                    // set style of pop axis
-                    popTicks.selectAll("text")
-                        .style("font", "Rajdhani")
-                        .attr("fill", "#4C4848");
-                    popTicks.selectAll("path")
-                        .attr("stroke", "#4C4848");
-                    popTicks.selectAll("line")
-                        .attr("stroke", "none");
-
 					var longitudeAxis = d3.axisBottom(longitudeScale);
 					var longitudeTicks = svg1.append("g")
 					.attr("transform", "translate(0, 410)")
@@ -253,11 +260,25 @@
                     
                     // set style of longitude axis
                     longitudeTicks.selectAll("text")
-                        .style("font", "Rajdhani")
+                        .style("font-family", "Rajdhani")
                         .attr("fill", "#4C4848");
                     longitudeTicks.selectAll("path")
                         .attr("stroke", "#4C4848");
                     longitudeTicks.selectAll("line")
+                        .attr("stroke", "none");
+                    
+                    var popAxis = d3.axisLeft(popScale);
+					var popTicks = svg1.append("g")
+					.attr("transform", "translate(40, 50)")
+					.call(popAxis);
+                    
+                    // set style of pop axis
+                    popTicks.selectAll("text")
+                        .style("font-family", "Rajdhani")
+                        .attr("fill", "#8C8C8B");
+                    popTicks.selectAll("path")
+                        .attr("stroke", "#8C8C8B");
+                    popTicks.selectAll("line")
                         .attr("stroke", "none");
                     
 					var followersScale = d3.scaleLinear()
@@ -283,13 +304,13 @@
 					    .text("Longitude");
 
 					svg1.append("text")
-					    .attr("x", 20)
+					    .attr("x", -20)
 					    .attr("y", 65)
 					    .style("font-family", "Rajdhani")
 					    .style("font-size", "14px")
 					    .style("alignment-baseline", "middle")
-					    .style("text-anchor", "middle")
-                        .style("fill", "#C1C1C1")
+					    .style("text-anchor", "start")
+                        .style("fill", "#8C8C8B")
 					    .text("Population (lg)");
 
 					socialMediaData0.forEach(function (d) {
@@ -347,6 +368,12 @@
 					            .style("alignment-baseline", "middle")
                                 .style("fill", "#C1C1C1")
 					            .text(d.worldLeader);
+                                svg1.append("circle")
+					            .attr("cx", longitudeScale(d.capitalLongitude))
+					            .attr("cy", popScale(d.lgPop))
+                                .attr("transform", "translate(0, 50)")
+					            .attr("r", 1)
+					            .style("fill", "#C1C1C1");
                             };
                     });
 
@@ -365,7 +392,17 @@
 			</svg>
 			<script type="text/javascript">
 				var svg2 = d3.select("#graph2");
-
+                svg2.append("text")
+						.attr("x", -20)
+					    .attr("y", 40)
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "16px")
+                        .style("font-style", "italic")
+					    .style("alignment-baseline", "middle")
+					    .style("text-anchor", "start")
+                        .style("fill", "#C1C1C1")
+					    .text("BY AGE & MAIN SOCIAL MEDIA PLATFORM");
+                
 				var socialMediaData1;
 
 				d3.json("data/Merged_Data_Feb21.json", function (error, data) {
@@ -391,20 +428,6 @@
 					var longitudeScale1 = d3.scaleLinear()
 					    .domain(longitudeExtent1)
 					    .range([0, 1000]);
-
-					var ageAxis = d3.axisLeft(ageScale);
-					var ageTicks = svg2.append("g")
-					.attr("transform", "translate(40, 50)")
-					.call(ageAxis);
-                    
-                    // set style of age axis
-                    ageTicks.selectAll("text")
-                        .style("font", "Rajdhani")
-                        .attr("fill", "#4C4848");
-                    ageTicks.selectAll("path")
-                        .attr("stroke", "#4C4848");
-                    ageTicks.selectAll("line")
-                        .attr("stroke", "none");
                     
 					var longitudeAxis1 = d3.axisBottom(longitudeScale1);
 					var longitudeTicks1 = svg2.append("g")
@@ -413,13 +436,27 @@
                     
                     // set style of longitude axis
                     longitudeTicks1.selectAll("text")
-                        .style("font", "Rajdhani")
+                        .style("font-family", "Rajdhani")
                         .attr("fill", "#4C4848");
                     longitudeTicks1.selectAll("path")
                         .attr("stroke", "#4C4848");
                     longitudeTicks1.selectAll("line")
                         .attr("stroke", "none");
 
+                    var ageAxis = d3.axisLeft(ageScale);
+					var ageTicks = svg2.append("g")
+					.attr("transform", "translate(40, 50)")
+					.call(ageAxis);
+                    
+                    // set style of age axis
+                    ageTicks.selectAll("text")
+                        .style("font-family", "Rajdhani")
+                        .attr("fill", "#8C8C8B");
+                    ageTicks.selectAll("path")
+                        .attr("stroke", "#8C8C8B");
+                    ageTicks.selectAll("line")
+                        .attr("stroke", "none");
+                    
 					var followersScale1 = d3.scaleLinear()
 					.domain([0, 98247052])
 					.range([15, 50]);
@@ -443,13 +480,13 @@
 					    .text("Longitude");
 
 					svg2.append("text")
-					    .attr("x", 20)
+					    .attr("x", -20)
 					    .attr("y", 65)
 					    .style("font-family", "Rajdhani")
 					    .style("font-size", "14px")
 					    .style("alignment-baseline", "middle")
-					    .style("text-anchor", "middle")
-                        .style("fill", "#C1C1C1")
+					    .style("text-anchor", "start")
+                        .style("fill", "#8C8C8B")
 					    .text("Age");
 
 					//Line for Median
@@ -537,8 +574,9 @@
 					    .text("Sebastian Kurz, Federal Chancellor of Austria");
 
 					socialMediaData1.forEach(function (d) {
-					    if(d.age != null) {
-                            if (d.totalFollowers != 0) {
+					    if (d.age != null) {
+                        if (d.capitalLongitude > -150) {
+                        if (d.totalFollowers != 0) {
 					        if (d.totalFollowers >= 10021649) { 
 					            svg2.append("circle")
 					           	.attr("cx", longitudeScale1(d.capitalLongitude))
@@ -580,11 +618,20 @@
 					            .on("click", function() {console.log(d.worldLeader)});
 					    };
                         };
+                        };
 					});
                     
                     // to layer text above circles.
                     socialMediaData1.forEach(function (d) {
 					        if (d.totalFollowers >= 10021649) {
+                                
+                                svg2.append("circle")
+					            .attr("cx", longitudeScale1(d.capitalLongitude))
+					            .attr("cy", ageScale(d.age))
+                                .attr("transform", "translate(0, 50)")
+					            .attr("r", 1)
+					            .style("fill", "#C1C1C1");
+                                
                                 if (d.worldLeader != "Narendra Modi") {
                                     svg2.append("text")
                                     .attr("x", longitudeScale1(d.capitalLongitude)+5)
@@ -619,9 +666,50 @@
 									Used Abhisek Jana's explanation as a guide for building this graph:
 									http://www.adeveloperdiary.com/d3-js/create-stacked-bar-chart-using-d3-js/
 
+                                    Used Mike Bostock's wrap function to wrap bar graph x-axis labels:
+                                    https://bl.ocks.org/mbostock/7555321
+
 			-->
-			<div id='stacked-bar'></div>
-			<script type="text/javascript" id="graph3">
+            <svg id="graph3" style="display: block; margin-left: 0 auto; margin-right: 0 auto" viewBox="-50 0 1100 504" preserveAspectRatio="xMidYMid meet">
+			</svg>
+			<script type="text/javascript">
+                // wrap function taken from mike bostock
+                function wrap(text, width) {
+                  text.each(function() {
+                    var text = d3.select(this),
+                        words = text.text().split(/\s+/).reverse(),
+                        word,
+                        line = [],
+                        lineNumber = 0,
+                        lineHeight = 1.1, // ems
+                        y = text.attr("y"),
+                        dy = parseFloat(text.attr("dy")),
+                        tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+                    while (word = words.pop()) {
+                      line.push(word);
+                      tspan.text(line.join(" "));
+                      if (tspan.node().getComputedTextLength() > width) {
+                        line.pop();
+                        tspan.text(line.join(" "));
+                        line = [word];
+                        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+                      }
+                    }
+                  });
+                }
+                                
+                var svg3 = d3.select(graph3);
+                svg3.append("text")
+						.attr("x", -20)
+					    .attr("y", 40)
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "16px")
+                        .style("font-style", "italic")
+					    .style("alignment-baseline", "middle")
+					    .style("text-anchor", "start")
+                        .style("fill", "#C1C1C1")
+					    .text("BREAKDOWN OF TOP 10 WORLD LEADERS' FOLLOWERS");
+                
 				d3.json("data/Merged_Data_Feb21.json", function (error, data) {
 					socialMediaData2 = data;
 					var top10Leaders = [null];
@@ -648,7 +736,6 @@
 					//Statistics of Followers
 					var followersMax = Math.max.apply(null,totalFollowers);
 					var followersMin = Math.min.apply(null,totalFollowers);
-
 
 					var xData = ["Enrique Peña Nieto", "Donald Trump", "Justin Trudeau", "Mauricio Macri", "Pope Francis", "Recep Tayyip Erdoğan", "Dmitry Medvedev", "Sheikh Mohammed bin Rashid Al Maktoum", "Narendra Modi", "Joko Widodo"];
 
@@ -691,15 +778,6 @@
 								]
 							];
 					 
-					var width = 1000;
-					var height = 400;
-
-					var svg3 = d3.select("body").append("svg")
-					        .attr("width", width)
-					        .attr("height", 500)
-					        .append("g")
-					        .attr("transform", "translate(40,0)");
-					 
 					var colors = d3.scaleOrdinal().range(["#3b5998", "#1dcaff", "#cd486b"]);
 
 					var yScale = d3.scaleLinear()
@@ -707,46 +785,72 @@
 						.range([360, 40]);
 
 					var yAxis = d3.axisLeft(yScale).tickFormat(function(d,i){ return Math.floor(d)/1000000 });
-					svg3.append("g")
-						.attr("transform", "translate(0, 0)")
+					var yTicks = svg3.append("g")
+						.attr("transform", "translate(40, 50)")
 						.call(yAxis);
 
+                    // set style of y axis
+				    yTicks.selectAll("text")
+                        .style("font-family", "Rajdhani")
+						.style("font-size", "10px")
+                        .style("fill", "#8C8C8B");
+                    
+                    yTicks.selectAll("path")
+                        .attr("stroke", "#8C8C8B");
+                    yTicks.selectAll("line")
+                        .attr("stroke", "#8C8C8B");
+                    
 					var xScale = d3.scaleLinear()
 						.domain([-1,10])
-						.range([0, 1000]);
+						.range([40, 1000]);
 
 					var xAxis = d3.axisBottom(xScale).tickValues([0,1,2,3,4,5,6,7,8,9,10])
 						.tickFormat(function(d,i){ return xData[i] });
-					svg3.append("g")
-						.attr("transform", "translate(0, 360)")
+					var xTicks = svg3.append("g")
+						.attr("transform", "translate(0, 410)")
 						.call(xAxis)
-						.selectAll("text")
-						.attr("transform", "rotate(20)")
-						 .style("text-anchor", "start");
-
+                    
+                    // set style of x axis
+				    xTicks.selectAll("text")
+                        .attr("transform", "translate(0, 5)")
+                        .style("font-family", "Rajdhani")
+						.style("font-size", "10px")
+                        .style("fill", "#C1C1C1")
+				        .style("text-anchor", "middle")
+                        .style("text-align", "center")
+                        .call(wrap, 100);
+                    
+                    xTicks.selectAll("path")
+                        .attr("stroke", "#8C8C8B");
+                    xTicks.selectAll("line")
+                        .attr("stroke", "#8C8C8B");
+                    
 					svg3.append("text")
-						.attr("x", 20)
-						.attr("y", 20)
-						.style("font-family", "Palatino")
-						.style("font-size", "11px")
+						.attr("x", -20)
+						.attr("y", 70)
+						.style("font-family", "Rajdhani")
+						.style("font-size", "14px")
 						.style("alignment-baseline", "middle")
-						.style("text-anchor", "middle")
-						.text("Followers (in Millions)");
+						.style("text-anchor", "start")
+                        .style("fill", "#8C8C8B")
+						.text("Followers (in millions)");
 
 					svg3.append("text")
 						.attr("x", 500)
-						.attr("y", 420)
-						.style("font-family", "Palatino")
-						.style("font-size", "11px")
+						.attr("y", 470)
+						.style("font-family", "Rajdhani")
+						.style("font-size", "14px")
 						.style("alignment-baseline", "middle")
 						.style("text-anchor", "middle")
+                        .style("fill", "#8C8C8B")
 						.text("Leaders");
 					 
 					var layer = svg3.selectAll(".stack")
 					        .data(dataByCountryStack)
 					        .enter().append("g")
 					        .attr("class", "stack")
-					        .attr("fill", function(d, i) { return colors(i); });
+					        .attr("fill", function(d, i) { return colors(i); })
+                            .style("opacity", 0.8);
 					 
 					layer.selectAll("rect")
 					        .data(function (d) {
@@ -754,15 +858,15 @@
 					        })
 					        .enter().append("rect")
 					        .attr("x", function (d) {
-					            return xScale(d.x) - 40;
+					            return xScale(d.x) - 25;
 					        })
 					        .attr("y", function (d) {
-					            return yScale(d.y + d.y0);
+					            return yScale(d.y + d.y0) + 50;
 					        })
 					        .attr("height", function (d) {
 					            return yScale(d.y0) - yScale(d.y + d.y0);
 					        })
-					        .attr("width", 80);
+					        .attr("width", 50);
 
 
 
@@ -772,14 +876,15 @@
 				        .scale(colors)
 				        .shapePadding(5)
 				        .shapeWidth(50)
-				        .shapeHeight(20)
+				        .shapeHeight(10)
 				        .labelOffset(-100)
 				        .labels(["Facebook", "Twitter", "Instagram"]);
 
 				    svg3.append("g")
-				        .attr("transform", "translate(60, 60)")
-				        .attr("font-family", "Palatino")
-				        .attr("font-size", 10)
+				        .attr("transform", "translate(950, 90)")
+				        .attr("font-family", "Rajdhani")
+				        .attr("font-size", 11)
+                        .attr("fill", "#C1C1C1")
 				        .attr("id", "legend_4")
 				        .call(colorLegend);
 				});					
