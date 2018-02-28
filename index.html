@@ -86,6 +86,15 @@
 					    .style("text-anchor", "start")
                         .style("fill", "#C1C1C1")
 					    .text("TOTAL NO. OF FOLLOWERS");
+                svg.append("text")
+						.attr("x", -20)
+					    .attr("y", 25)
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "11px")
+					    .style("alignment-baseline", "hanging")
+					    .style("text-anchor", "start")
+                        .style("fill", "#8C8C8B")
+					    .text("The countries or states named represent the world leaders with the top 10 highest numbers of followers.");
 				
                 var width = 1010;
 				var height = 480;
@@ -201,14 +210,16 @@
 								if(d[2].includes(specialCountries[t])){return specialCountries[t];}
 							}
 						})
-						.attr("y", function(d) {return projection(d)[1];})
+						.attr("y", function(d) {return (projection(d)[1]);})
 						.attr("x", function(d) {return projection(d)[0];})
+                        .style("font-family", "Rajdhani")
+				        .style("font-size", "11px")
+                        .style("font-variant", "small-caps")
+				        .style("alignment-baseline", "middle")
+                        .style("text-anchor", "middle")
+                        .style("fill", "#C1C1C1")
 						.attr("id", "mapText");
-                    
-                    //points for top 10 leaders
 
-                    
-                        
 				   	//lines for top 10 leaders
 				   		var specialLines = svg.selectAll("line").data(specialCapitals);
 
