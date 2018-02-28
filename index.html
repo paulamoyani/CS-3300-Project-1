@@ -103,7 +103,7 @@
 
 					socialMediaData.forEach(function (d) {
 						if (d.totalFollowers != 0) {
-							capitalCityCoord = [d.capitalLongitude, d.capitalLatitude];
+							capitalCityCoord = [d.capitalLongitude, d.capitalLatitude, d.country];
 							leadersWithFollowers.push(capitalCityCoord);
 						}
 					});
@@ -121,17 +121,19 @@
 				    	.domain([0, 98247052])
 				    	.range([15, 50]);
 
-					var specialCapitals = []
+					var specialCapitals = [];
+					var specialCountries = [];
 				    socialMediaData.forEach(function (d) {
 						if (d.totalFollowers >= 10021649) {	
-							specialCapitalCityCoord = [d.capitalLongitude, d.capitalLatitude, d.totalFollowers]
-							specialCapitals.push(specialCapitalCityCoord)
+							specialCapitalCityCoord = [d.capitalLongitude, d.capitalLatitude, d.totalFollowers];
+							specialCapitals.push(specialCapitalCityCoord);
+							specialCountries.push(d.country);
 						}
 					});
 
 				  	d3.json("data/world-50m.json", function (error, data) {
 					  	rawData = data;  
-					  	countries = topojson.feature(rawData, rawData.objects.countries); //change to continent
+					  	countries = topojson.feature(rawData, rawData.objects.countries);
 					  	showMap();
 				  	});
 
@@ -152,7 +154,7 @@
 				     		return pathGenerator(country);
 				    	})
 
-				    	var circles = svg.selectAll("circle").data(leadersWithFollowers)
+				    	var circles = svg.selectAll("circle").data(leadersWithFollowers);
 
 				    	circles = circles.enter().append("circle")
 				    		.style("fill", "#black")
@@ -161,15 +163,20 @@
 
 				    	circles.attr("cx", function(d) {
 				      		return projection(d)[0];
-				   		})
+				   		});
 				    	
 				    	circles.attr("cy", function(d) {
 				      		return projection(d)[1];
-				      	})
+				      	});
 
 				      	circles.attr("r", function(d) {
 				    		return 3;
-				   		})
+				   		});
+
+				   		var g = svg.selectAll(null)
+					        .data(leadersWithFollowers)
+					        .enter()
+					        .append("g");
 
 				    //circles for top 10 leaders 
 				   		var specialCircles = svg.selectAll("circle").data(specialCapitals);
@@ -185,7 +192,18 @@
 				    	.attr("cy", function(d) {
 				      		return projection(d)[1]; })
 						.attr("r", function(d) {
-				    		return followersScale((d)[2]); })
+				    		return followersScale((d)[2]); });
+
+						g.append("text")
+						.text(function (d,i) {
+							for(t=0;t<specialCapitals.length;t++) {	
+								console.log(d);
+								if(d[2].includes(specialCountries[t])){return specialCountries[t];}
+							}
+						})
+						.attr("y", function(d) {return projection(d)[1];})
+						.attr("x", function(d) {return projection(d)[0];})
+						.attr("id", "mapText");
                     
                     //points for top 10 leaders
 
