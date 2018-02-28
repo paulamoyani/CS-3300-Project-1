@@ -1,14 +1,52 @@
 <html>
 	<head>
-		<title> World Leaders and their Social Media Accounts </title>
+		<title> djm453, pm445, rl544 </title>
 		<meta charset="utf-8">
 		<script src="https://d3js.org/d3.v4.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
 		<script src="http://d3js.org/topojson.v2.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.13.0/d3-legend.js"></script>
 		<script src="js/functions.js" type="text/javascript"></script>
+        <link href="https://fonts.googleapis.com/css?family=Rajdhani|Rubik+Mono+One" rel="stylesheet">
 		<style>
-			body {font-family: 'Alegreya Sans', Calibri, sans-serif; text-anchor: 'middle'; dominant-baseline: 'central';}
+            h1 {font-family: 'Rubik Mono One', sans-serif;
+                font-size: 24px;
+                font-style: normal;
+                font-variant: normal;
+                font-weight: 200;
+                line-height: 26px;
+                display: flex;
+                justify-content: center;
+                position: fixed;
+                color: #C1C1C1;
+                
+            }
+            h2 {font-family: 'Rajdhani', sans-serif;
+                font-size: 14px;
+                font-style: normal;
+                font-variant: normal;
+                font-weight: 80;
+                line-height: 18px;
+                text-align: right;
+                padding-top: 15px;
+                padding-right: 15px;
+                color: #C1C1C1;
+            }
+            h3 {font-family: 'Rajdhani', sans-serif;
+                font-size: 14px;
+                font-style: normal;
+                font-variant: normal;
+                font-weight: 80;
+                line-height: 18px;
+                text-align: right;
+                padding-right: 15px;
+                color: #C1C1C1;
+            }
+			body {font-family: 'Rajdhani', sans-serif; 
+                text-anchor: 'middle';
+                dominant-baseline: 'central';
+                background: #2B2727;
+            }
 			.country[data-continent="North America"] { fill: #0067A5; }
 			.country[data-continent="South America"] { fill: #E6E6FA; }
 			.country[data-continent="Asia"] { fill: #E0FFFF; }
@@ -16,34 +54,30 @@
 			.country[data-continent="Europe"] { fill: #FFE4B5; }
 			.country[data-continent="Oceania"] { fill: 	#FFC0CB; }
 			.country[data-continent="Antarctica"] { fill: #efc2c2; }
-
 		</style>
 	</head>
 
 	<body>
-		<h1>CS3300: Project 1</h1> 
-		<h3>Danyal Motiwalla (djm453), Paula Moya Nieto (pm445), Rachel Yunyann Liu (rl544)</h3>
-		<h3><u>Issues:</u> <br> 1) Pope and Sheikh not in 2/3 graphs <br> 
-		2) Text sometimes overlaps/hard to read.<br>
-		</h3>
+		<h1>World Leaders and their Social Media Presence</h1>
+        <h2>CS 3300 PROJECT 1</h2>
+        <h3>Danyal Motiwalla (djm453)
+        <br>Paula Moya Nieto (pm445)
+        <br>& Rachel Yunyann Liu (rl544)</h3>
 
 		<p id=“project1”> 
-
-
 
 			<!--    				Map for world leaders with social media followers
 
 									Same format as David Mimno's class on maps and projections (Friday, February 16, 2018)
 
 			-->
-
-			<svg height="480" width="1200" id="mapView">
+			<svg id="mapView" style="display: block; margin-left: 0 auto; margin-right: 0 auto" viewBox="-50 0 1100 480" preserveAspectRatio="xMidYMid meet">
 			</svg>
 			<script type="text/javascript">
 				var svg = d3.select(mapView);
 
-				var width = svg.attr("width");
-				var height = svg.attr("height");
+				var width = 1010;
+				var height = 480;
 
 				var projection = d3.geoEquirectangular().scale(75);
 				var pathGenerator = d3.geoPath().projection(projection);
@@ -97,9 +131,10 @@
 				  		var paths = svg.selectAll("path.country")
 				  			.data(countries.features)
 				    	paths = paths.enter().append("path")
-				    	.attr("class", "country")
-							.attr("stroke", "#808080")
-							.attr( "fill", "#C0C0C0")
+				    	    .attr("class", "country")
+							.attr("stroke", "#383434")
+                            .attr("stroke-width", "0")
+							.attr( "fill", "#4C4848")
 				    		.merge(paths);  
 
 				    	paths.attr("d", function(country) {
@@ -130,7 +165,7 @@
 
 				    	specialCircles = specialCircles.enter().append("circle")
 				    		.style("fill", "#FF4C4C")
-				    		.style("opacity", 0.85)
+				    		.style("opacity", 0.6)
 				    		.merge(specialCircles);
 
 				    	specialCircles
@@ -140,9 +175,14 @@
 				      		return projection(d)[1]; })
 						.attr("r", function(d) {
 				    		return followersScale((d)[2]); })
+                    
+                    //country names for top 10 leaders
 
+
+                    
+                        
 				   	//lines for top 10 leaders
-				   		var specialLines = svg.selectAll("line").data(specialCapitals)
+				   		var specialLines = svg.selectAll("line").data(specialCapitals);
 
 				   		specialLines = specialLines.enter().append("line")
 				    		.style("opacity", 0.3)
@@ -157,7 +197,7 @@
 						.attr("x2", function(d) {
 				          return projection(d)[0]})
 						.attr("y2",height)
-						.style("stroke", "black");
+						.style("stroke", "#C1C1C1");
 					};
 				});
 			</script>
@@ -165,11 +205,9 @@
 
 			<!--    				Population (Log) vs. Longitude Graph
 
-									
-
 			-->
 
-			<svg height="400" width="1000" id="graph1">
+			<svg id="graph1" style="display: block; margin-left: 0 auto; margin-right: 0 auto" viewBox="-50 0 1100 454" preserveAspectRatio="xMidYMid meet">
 			</svg>
 			<script type="text/javascript">
 				var svg1 = d3.select("#graph1");
@@ -184,7 +222,7 @@
 					});
 
 					var popScale = d3.scaleLinear()
-					.domain([0, 10])
+					.domain([2.5, 10])
 					.range([360, 40]);
 
 					var longitudeExtent = d3.extent(socialMediaData0, function (d) { 
@@ -195,15 +233,33 @@
 					    .range([0, 1000]);
 
 					var popAxis = d3.axisLeft(popScale);
-					svg1.append("g")
-					.attr("transform", "translate(40, 0)")
+					var popTicks = svg1.append("g")
+					.attr("transform", "translate(40, 50)")
 					.call(popAxis);
+                    
+                    // set style of pop axis
+                    popTicks.selectAll("text")
+                        .style("font", "Rajdhani")
+                        .attr("fill", "#4C4848");
+                    popTicks.selectAll("path")
+                        .attr("stroke", "#4C4848");
+                    popTicks.selectAll("line")
+                        .attr("stroke", "none");
 
 					var longitudeAxis = d3.axisBottom(longitudeScale);
-					svg1.append("g")
-					.attr("transform", "translate(0, 360)")
+					var longitudeTicks = svg1.append("g")
+					.attr("transform", "translate(0, 410)")
 					.call(longitudeAxis);
-
+                    
+                    // set style of longitude axis
+                    longitudeTicks.selectAll("text")
+                        .style("font", "Rajdhani")
+                        .attr("fill", "#4C4848");
+                    longitudeTicks.selectAll("path")
+                        .attr("stroke", "#4C4848");
+                    longitudeTicks.selectAll("line")
+                        .attr("stroke", "none");
+                    
 					var followersScale = d3.scaleLinear()
 					.domain([0, 98247052])
 					.range([15, 50]);
@@ -218,40 +274,46 @@
 
 					svg1.append("text")
 						.attr("x", 500)
-					    .attr("y", 390)
-					    .style("font-family", "Palatino")
-					    .style("font-size", "11px")
+					    .attr("y", 445)
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "14px")
 					    .style("alignment-baseline", "middle")
 					    .style("text-anchor", "middle")
+                        .style("fill", "#4C4848")
 					    .text("Longitude");
 
 					svg1.append("text")
-					    .attr("x", 60)
-					    .attr("y", 20)
-					    .style("font-family", "Palatino")
-					    .style("font-size", "11px")
+					    .attr("x", 20)
+					    .attr("y", 65)
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "14px")
 					    .style("alignment-baseline", "middle")
 					    .style("text-anchor", "middle")
-					    .text("Population (Log Scale)");
+                        .style("fill", "#C1C1C1")
+					    .text("Population (lg)");
 
 					socialMediaData0.forEach(function (d) {
 					    if (d.totalFollowers != 0) {
 					        if (d.totalFollowers >= 10021649) { 
-					            svg1.append("circle")
-					           	.attr("cx", longitudeScale(d.capitalLongitude))
-					            .attr("cy", popScale(d.lgPop))
-					            .attr("r", followersScale(d.totalFollowers))
-					            .style("fill", "#FF4C4C")
-					            .style("opacity", approvalScale(d.approvalRatings));
-
-					            svg1.append("text")
-					            .attr("x", longitudeScale(d.capitalLongitude)+5)
-					            .attr("y", popScale(d.lgPop)-0.8)
-					            .style("font-family", "Palatino")
-					            .style("font-size", "10px")
-					            .style("alignment-baseline", "middle")
-					            .text(d.worldLeader);
-
+                                if (d.approvalRatings != null) {
+                                    svg1.append("circle")
+                                    .attr("cx", longitudeScale(d.capitalLongitude))
+                                    .attr("cy", popScale(d.lgPop))
+                                    .attr("r", followersScale(d.totalFollowers))
+                                    .attr("transform", "translate(0, 50)")
+                                    .style("fill", "#FF4C4C")
+                                    .style("opacity", approvalScale(d.approvalRatings));
+                                }
+                                else {
+                                    svg1.append("circle")
+                                    .attr("cx", longitudeScale(d.capitalLongitude))
+                                    .attr("cy", popScale(d.lgPop))
+                                    .attr("r", followersScale(d.totalFollowers))
+                                    .attr("transform", "translate(0, 50)")
+                                    .style("fill", "none")
+                                    .style("stroke", "#4C4848")
+                                    .style("stroke-width", "2");
+                                };
 					            svg1.append("line")
 					            .attr("x1",longitudeScale(d.capitalLongitude))
 					            .attr("x2",longitudeScale(d.capitalLongitude))
@@ -259,18 +321,35 @@
 					            .attr("y2",height)
 					            .style("opacity", 0.3)
 					            .style("stroke-dasharray","5,5")
-					            .style("stroke", "black");
+					            .style("stroke", "#C1C1C1");
 					        }
 					        else {
 					            svg1.append("circle")
 					            .attr("cx", longitudeScale(d.capitalLongitude))
 					            .attr("cy", popScale(d.lgPop))
+                                .attr("transform", "translate(0, 50)")
 					            .attr("r", 3)
 					            .style("fill", "#FF4C4C")
 					            .style("opacity", approvalScale(d.approvalRatings));
 					        };
 					    };
 					});
+                    
+                    // to layer text above circles.
+                    socialMediaData0.forEach(function (d) {
+					        if (d.totalFollowers >= 10021649) {
+					            svg1.append("text")
+					            .attr("x", longitudeScale(d.capitalLongitude)+5)
+					            .attr("y", popScale(d.lgPop)-0.8)
+                                .attr("transform", "translate(0, 50)")
+					            .style("font-family", "Rajdhani")
+					            .style("font-size", "10px")
+					            .style("alignment-baseline", "middle")
+                                .style("fill", "#C1C1C1")
+					            .text(d.worldLeader);
+                            };
+                    });
+
 				});
 
 			</script>
@@ -282,7 +361,7 @@
 
 			-->
 
-			<svg height="400" width="1000" id="graph2">
+			<svg id="graph2" style="display: block; margin-left: 0 auto; margin-right: 0 auto" viewBox="-50 0 1100 454" preserveAspectRatio="xMidYMid meet">
 			</svg>
 			<script type="text/javascript">
 				var svg2 = d3.select("#graph2");
@@ -302,7 +381,7 @@
 					var ageMin = Math.min.apply(null,age);
 
 					var ageScale = d3.scaleLinear()
-					.domain([0,ageMax])
+					.domain([20,ageMax])
 					.range([360, 40]);
 
 					var longitudeExtent1 = d3.extent(socialMediaData1, function (d) { 
@@ -314,14 +393,32 @@
 					    .range([0, 1000]);
 
 					var ageAxis = d3.axisLeft(ageScale);
-					svg2.append("g")
-					.attr("transform", "translate(40, 0)")
+					var ageTicks = svg2.append("g")
+					.attr("transform", "translate(40, 50)")
 					.call(ageAxis);
-
+                    
+                    // set style of age axis
+                    ageTicks.selectAll("text")
+                        .style("font", "Rajdhani")
+                        .attr("fill", "#4C4848");
+                    ageTicks.selectAll("path")
+                        .attr("stroke", "#4C4848");
+                    ageTicks.selectAll("line")
+                        .attr("stroke", "none");
+                    
 					var longitudeAxis1 = d3.axisBottom(longitudeScale1);
-					svg2.append("g")
-					.attr("transform", "translate(0, 360)")
+					var longitudeTicks1 = svg2.append("g")
+					.attr("transform", "translate(0, 410)")
 					.call(longitudeAxis1);
+                    
+                    // set style of longitude axis
+                    longitudeTicks1.selectAll("text")
+                        .style("font", "Rajdhani")
+                        .attr("fill", "#4C4848");
+                    longitudeTicks1.selectAll("path")
+                        .attr("stroke", "#4C4848");
+                    longitudeTicks1.selectAll("line")
+                        .attr("stroke", "none");
 
 					var followersScale1 = d3.scaleLinear()
 					.domain([0, 98247052])
@@ -337,20 +434,22 @@
 
 					svg2.append("text")
 						.attr("x", 500)
-					    .attr("y", 390)
-					    .style("font-family", "Palatino")
-					    .style("font-size", "11px")
+					    .attr("y", 445)
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "14px")
 					    .style("alignment-baseline", "middle")
 					    .style("text-anchor", "middle")
+                        .style("fill", "#4C4848")
 					    .text("Longitude");
 
 					svg2.append("text")
-					    .attr("x", 40)
-					    .attr("y", 20)
-					    .style("font-family", "Palatino")
-					    .style("font-size", "11px")
+					    .attr("x", 20)
+					    .attr("y", 65)
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "14px")
 					    .style("alignment-baseline", "middle")
 					    .style("text-anchor", "middle")
+                        .style("fill", "#C1C1C1")
 					    .text("Age");
 
 					//Line for Median
@@ -359,16 +458,19 @@
 					    .attr("x2",width)
 					    .attr("y1",ageScale(ageMedian))
 					    .attr("y2",ageScale(ageMedian))
-					    .style("stroke", "green");
+                        .attr("transform", "translate(0, 50)")
+					    .style("stroke", "#4C4848");
 					//Text for Median
 					svg2.append("text")
-					    .attr("x", 80)
+					    .attr("x", 980)
 					    .attr("y", ageScale(ageMedian)-5)
-					    .style("font-family", "Palatino")
-					    .style("font-size", "11px")
-					    .style("fill", "green")
+                        .attr("transform", "translate(0, 50)")
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "14px")
+                        .style("font-weight", 600)
+					    .style("fill", "#C1C1C1")
 					    .style("alignment-baseline", "middle")
-					    .style("text-anchor", "middle")
+					    .style("text-anchor", "end")
 					    .text("Median: " + ageMedian);
 
 					//Line for Max Age
@@ -377,17 +479,31 @@
 					    .attr("x2",width)
 					    .attr("y1",ageScale(ageMax))
 					    .attr("y2",ageScale(ageMax))
-					    .style("stroke", "red");
+                        .attr("transform", "translate(0, 50)")
+					    .style("stroke", "#4C4848");
 					//Text for Max Age
 					svg2.append("text")
-					    .attr("x", 132)
+					    .attr("x", 980)
 					    .attr("y", ageScale(ageMax)-5)
-					    .style("font-family", "Palatino")
-					    .style("font-size", "11px")
-					    .style("fill", "red")
+                        .attr("transform", "translate(0, 50)")
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "14px")
+                        .style("font-weight", 600)
+					    .style("fill", "#C1C1C1")
 					    .style("alignment-baseline", "middle")
-					    .style("text-anchor", "middle")
-					    .text("Max Age: " + ageMax + " (Queen Elizabeth II)");
+					    .style("text-anchor", "end")
+					    .text("Oldest: " + ageMax);
+                    svg2.append("text")
+					    .attr("x", 980)
+					    .attr("y", ageScale(ageMax)-20)
+                        .attr("transform", "translate(0, 50)")
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "11px")
+                        .style("font-style", "italic")
+					    .style("fill", "#8C8C8B")
+					    .style("alignment-baseline", "middle")
+					    .style("text-anchor", "end")
+					    .text("Queen Elizabeth II, sovereign of multiple states");
 
 					//Line for Min Age
 					svg2.append("line")
@@ -395,54 +511,61 @@
 					    .attr("x2",width)
 					    .attr("y1",ageScale(ageMin))
 					    .attr("y2",ageScale(ageMin))
-					    .style("stroke", "orange");
+                        .attr("transform", "translate(0, 50)")
+					    .style("stroke", "#4C4848");
 					//Text for Min Age
 					svg2.append("text")
-					    .attr("x", 125)
+					    .attr("x", 980)
 					    .attr("y", ageScale(ageMin)-5)
-					    .style("font-family", "Palatino")
-					    .style("font-size", "11px")
-					    .style("fill", "orange")
+                        .attr("transform", "translate(0, 50)")
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "14px")
+					    .style("fill", "#C1C1C1")
 					    .style("alignment-baseline", "middle")
-					    .style("text-anchor", "middle")
-					    .text("Min Age: " + ageMin + " (Sebastian Kurz)");
-
+					    .style("text-anchor", "end")
+					    .text("Youngest: " + ageMin);
+                    svg2.append("text")
+					    .attr("x", 980)
+					    .attr("y", ageScale(ageMin)+5)
+                        .attr("transform", "translate(0, 50)")
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "11px")
+                        .style("font-style", "italic")
+					    .style("fill", "#8C8C8B")
+					    .style("alignment-baseline", "hanging")
+					    .style("text-anchor", "end")
+					    .text("Sebastian Kurz, Federal Chancellor of Austria");
 
 					socialMediaData1.forEach(function (d) {
-					    if (d.totalFollowers != 0) {
+					    if(d.age != null) {
+                            if (d.totalFollowers != 0) {
 					        if (d.totalFollowers >= 10021649) { 
 					            svg2.append("circle")
 					           	.attr("cx", longitudeScale1(d.capitalLongitude))
 					            .attr("cy", ageScale(d.age))
 					            .attr("r", followersScale1(d.totalFollowers))
+                                .attr("transform", "translate(0, 50)")
 					            .style("fill", colorThirdGraph(d))
-					            .style("opacity", .75)
+					            .style("opacity", .6)
 					            .on("click", function() {console.log(d.worldLeader)});
-
-					            svg2.append("text")
-					            .attr("x", longitudeScale1(d.capitalLongitude)+5)
-					            .attr("y", ageScale(d.age)-0.8)
-					            .style("font-family", "Palatino")
-					            .style("font-size", "10px")
-					            .style("alignment-baseline", "middle")
-					            .text(d.worldLeader);
 
 					            svg2.append("line")
 					            .attr("x1",longitudeScale1(d.capitalLongitude))
 					            .attr("x2",longitudeScale1(d.capitalLongitude))
 					            .attr("y1",0)
-					            .attr("y2",ageScale(d.age))
+					            .attr("y2",ageScale(d.age)+50)
 					            .style("opacity", 0.3)
 					            .style("stroke-dasharray","5,5")
-					            .style("stroke", "black");
+					            .style("stroke", "#C1C1C1");
 					        }
 					        else {
 					            svg2.append("circle")
 					            .attr("cx", longitudeScale1(d.capitalLongitude))
 					            .attr("cy", ageScale(d.age))
 					            .attr("r", 3)
+                                .attr("transform", "translate(0, 50)")
 					            .style("fill", colorThirdGraph(d))
-					            .style("opacity", .75)
+					            .style("opacity", .6)
 					            .on("click", function() {console.log(d.worldLeader)});
 					        };
 					    }
@@ -451,15 +574,43 @@
 					            .attr("cx", longitudeScale1(d.capitalLongitude))
 					            .attr("cy", ageScale(d.age))
 					            .attr("r", 3)
+                                .attr("transform", "translate(0, 50)")
 					            .style("fill", colorThirdGraph(d))
-					            .style("opacity", .75)
+					            .style("opacity", .1)
 					            .on("click", function() {console.log(d.worldLeader)});
 					    };
-					    
+                        };
 					});
+                    
+                    // to layer text above circles.
+                    socialMediaData1.forEach(function (d) {
+					        if (d.totalFollowers >= 10021649) {
+                                if (d.worldLeader != "Narendra Modi") {
+                                    svg2.append("text")
+                                    .attr("x", longitudeScale1(d.capitalLongitude)+5)
+                                    .attr("y", ageScale(d.age)-0.8)
+                                    .attr("transform", "translate(0, 50)")
+                                    .style("font-family", "Rajdhani")
+                                    .style("font-size", "10px")
+                                    .style("alignment-baseline", "middle")
+                                    .style("fill", "#C1C1C1")
+                                    .text(d.worldLeader);
+                                }
+					            else {
+                                    svg2.append("text")
+                                    .attr("x", longitudeScale1(d.capitalLongitude)+5)
+                                    .attr("y", ageScale(d.age)-0.8)
+                                    .attr("transform", "translate(0, 50)")
+                                    .style("font-family", "Rajdhani")
+                                    .style("font-size", "10px")
+                                    .style("alignment-baseline", "hanging")
+                                    .style("fill", "#C1C1C1")
+                                    .text(d.worldLeader);
+                                };
+                            };
+                    });
 				});
 			</script>
-
 
 
 
