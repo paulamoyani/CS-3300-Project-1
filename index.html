@@ -47,13 +47,6 @@
                 dominant-baseline: 'central';
                 background: #2B2727;
             }
-			.country[data-continent="North America"] { fill: #0067A5; }
-			.country[data-continent="South America"] { fill: #E6E6FA; }
-			.country[data-continent="Asia"] { fill: #E0FFFF; }
-			.country[data-continent="Africa"] { fill: #90EE90; }
-			.country[data-continent="Europe"] { fill: #FFE4B5; }
-			.country[data-continent="Oceania"] { fill: 	#FFC0CB; }
-			.country[data-continent="Antarctica"] { fill: #efc2c2; }
 		</style>
 	</head>
 
@@ -751,15 +744,6 @@
 					});
 					var totalFollowers = d3.extent(socialMediaData2, function (d) { 
 						return d.totalFollowers;
-					});
-					var FacebookFollowers = d3.extent(socialMediaData2, function (d) { 
-						return d.facebookLikes;
-					});
-					var TwitterFollowers = d3.extent(socialMediaData2, function (d) { 
-						return d.twitterFollowers;
-					});
-					var InstagramFollowers = d3.extent(socialMediaData2, function (d) { 
-						return d.instagramFollowers;
 					});
 
 					//Statistics of Followers
