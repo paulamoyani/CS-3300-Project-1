@@ -199,7 +199,6 @@
 						g.append("text")
 						.text(function (d,i) {
 							for(t=0;t<specialCapitals.length;t++) {	
-								console.log(d);
 								if(d[2].includes(specialCountries[t])){return specialCountries[t];}
 							}
 						})
@@ -597,49 +596,46 @@
 
 					socialMediaData1.forEach(function (d) {
 					    if (d.age != null) {
-                        if (d.capitalLongitude > -150) {
-                        if (d.totalFollowers != 0) {
-					        if (d.totalFollowers >= 10021649) { 
-					            svg2.append("circle")
-					           	.attr("cx", longitudeScale1(d.capitalLongitude))
-					            .attr("cy", ageScale(d.age))
-					            .attr("r", followersScale1(d.totalFollowers))
-                                .attr("transform", "translate(0, 50)")
-					            .style("fill", colorThirdGraph(d))
-					            .style("opacity", .6)
-					            .on("click", function() {console.log(d.worldLeader)});
+	                        if (d.capitalLongitude > -150) {
+		                        if (d.totalFollowers != 0) {
+							        if (d.totalFollowers >= 10021649) { 
+							            svg2.append("circle")
+							           	.attr("cx", longitudeScale1(d.capitalLongitude))
+							            .attr("cy", ageScale(d.age))
+							            .attr("r", followersScale1(d.totalFollowers))
+		                                .attr("transform", "translate(0, 50)")
+							            .style("fill", colorThirdGraph(d))
+							            .style("opacity", .6);
 
-					            svg2.append("line")
-					            .attr("x1",longitudeScale1(d.capitalLongitude))
-					            .attr("x2",longitudeScale1(d.capitalLongitude))
-					            .attr("y1",0)
-					            .attr("y2",ageScale(d.age)+50)
-					            .style("opacity", 0.3)
-					            .style("stroke-dasharray","5,5")
-					            .style("stroke", "#C1C1C1");
-					        }
-					        else {
-					            svg2.append("circle")
-					            .attr("cx", longitudeScale1(d.capitalLongitude))
-					            .attr("cy", ageScale(d.age))
-					            .attr("r", 3)
-                                .attr("transform", "translate(0, 50)")
-					            .style("fill", colorThirdGraph(d))
-					            .style("opacity", .6)
-					            .on("click", function() {console.log(d.worldLeader)});
-					        };
-					    }
-					    else {
-					    	svg2.append("circle")
-					            .attr("cx", longitudeScale1(d.capitalLongitude))
-					            .attr("cy", ageScale(d.age))
-					            .attr("r", 3)
-                                .attr("transform", "translate(0, 50)")
-					            .style("fill", colorThirdGraph(d))
-					            .style("opacity", .1)
-					            .on("click", function() {console.log(d.worldLeader)});
-					    };
-                        };
+							            svg2.append("line")
+							            .attr("x1",longitudeScale1(d.capitalLongitude))
+							            .attr("x2",longitudeScale1(d.capitalLongitude))
+							            .attr("y1",0)
+							            .attr("y2",ageScale(d.age)+50)
+							            .style("opacity", 0.3)
+							            .style("stroke-dasharray","5,5")
+							            .style("stroke", "#C1C1C1");
+							        }
+							        else {
+							            svg2.append("circle")
+							            .attr("cx", longitudeScale1(d.capitalLongitude))
+							            .attr("cy", ageScale(d.age))
+							            .attr("r", 3)
+		                                .attr("transform", "translate(0, 50)")
+							            .style("fill", colorThirdGraph(d))
+							            .style("opacity", .6);
+							        };
+							    }
+							    else {
+							    	svg2.append("circle")
+							            .attr("cx", longitudeScale1(d.capitalLongitude))
+							            .attr("cy", ageScale(d.age))
+							            .attr("r", 3)
+		                                .attr("transform", "translate(0, 50)")
+							            .style("fill", colorThirdGraph(d))
+							            .style("opacity", .1);
+							    };
+	                        };
                         };
 					});
                     
