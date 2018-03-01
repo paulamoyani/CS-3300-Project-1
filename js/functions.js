@@ -13,6 +13,8 @@ function colorThirdGraph(person){
 	}	
 };
 
+
+// Gotten from https://jonlabelle.com/snippets/view/javascript/calculate-mean-median-mode-and-range-in-javascript
 function median(numbers) {
     var median = 0;
     var numsLen = numbers.length;
