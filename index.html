@@ -119,7 +119,7 @@
 					    .range([0, 1000]);
 
 					//To create larger circles for top 10 leaders
-					var followersScale = d3.scaleLinear()
+					var followersScale = d3.scaleSqrt()
 				    	.domain([0, 98247052])
 				    	.range([15, 50]);
 
@@ -159,7 +159,7 @@
 				    	var circles = svg.selectAll("circle").data(leadersWithFollowers);
 
 				    	circles = circles.enter().append("circle")
-				    		.style("fill", "#black")
+				    		.style("fill", "#399A00")
 				    		.style("opacity", 0.75)
 				    		.merge(circles);
 
@@ -302,7 +302,7 @@
                     popTicks.selectAll("line")
                         .attr("stroke", "none");
                     
-					var followersScale = d3.scaleLinear()
+					var followersScale = d3.scaleSqrt()
 					.domain([0, 98247052])
 					.range([15, 50]);
 
@@ -478,7 +478,7 @@
                     ageTicks.selectAll("line")
                         .attr("stroke", "none");
                     
-					var followersScale1 = d3.scaleLinear()
+					var followersScale1 = d3.scaleSqrt()
 					.domain([0, 98247052])
 					.range([15, 50]);
 
