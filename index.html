@@ -641,40 +641,41 @@
                     
                     // to layer text above circles.
                     socialMediaData1.forEach(function (d) {
-					        if (d.totalFollowers >= 10021649) {
+					    if (d.totalFollowers >= 10021649) {
                                 
-                                svg2.append("circle")
-					            .attr("cx", longitudeScale1(d.capitalLongitude))
-					            .attr("cy", ageScale(d.age))
+                            svg2.append("circle")
+					        .attr("cx", longitudeScale1(d.capitalLongitude))
+					        .attr("cy", ageScale(d.age))
+                            .attr("transform", "translate(0, 50)")
+					        .attr("r", 1)
+					        .style("fill", "#C1C1C1");
+                                
+                            if (d.worldLeader != "Narendra Modi") {
+                                svg2.append("text")
+                                .attr("x", longitudeScale1(d.capitalLongitude)+5)
+                                .attr("y", ageScale(d.age)-0.8)
                                 .attr("transform", "translate(0, 50)")
-					            .attr("r", 1)
-					            .style("fill", "#C1C1C1");
-                                
-                                if (d.worldLeader != "Narendra Modi") {
-                                    svg2.append("text")
-                                    .attr("x", longitudeScale1(d.capitalLongitude)+5)
-                                    .attr("y", ageScale(d.age)-0.8)
-                                    .attr("transform", "translate(0, 50)")
-                                    .style("font-family", "Rajdhani")
-                                    .style("font-size", "10px")
-                                    .style("alignment-baseline", "middle")
-                                    .style("fill", "#C1C1C1")
-                                    .text(d.worldLeader);
-                                }
-					            else {
-                                    svg2.append("text")
-                                    .attr("x", longitudeScale1(d.capitalLongitude)+5)
-                                    .attr("y", ageScale(d.age)-0.8)
-                                    .attr("transform", "translate(0, 50)")
-                                    .style("font-family", "Rajdhani")
-                                    .style("font-size", "10px")
-                                    .style("alignment-baseline", "hanging")
-                                    .style("fill", "#C1C1C1")
-                                    .text(d.worldLeader);
-                                };
+                                .style("font-family", "Rajdhani")
+                                .style("font-size", "10px")
+                                .style("alignment-baseline", "middle")
+                                .style("fill", "#C1C1C1")
+                                .text(d.worldLeader);
+                            }
+					        else {
+                                svg2.append("text")
+                                .attr("x", longitudeScale1(d.capitalLongitude)+5)
+                                .attr("y", ageScale(d.age)-0.8)
+                                .attr("transform", "translate(0, 50)")
+                                .style("font-family", "Rajdhani")
+                                .style("font-size", "10px")
+                                .style("alignment-baseline", "hanging")
+                                .style("fill", "#C1C1C1")
+                                .text(d.worldLeader);
                             };
+                        };
                     });
 				});
+
 			</script>
 
 
@@ -727,6 +728,7 @@
 					    .style("text-anchor", "start")
                         .style("fill", "#C1C1C1")
 					    .text("BREAKDOWN OF TOP 10 WORLD LEADERS' FOLLOWERS");
+
                 
 				d3.json("data/Merged_Data_Feb21.json", function (error, data) {
 					socialMediaData2 = data;
@@ -855,31 +857,28 @@
 						.text("Leaders");
 					 
 					var layer = svg3.selectAll(".stack")
-					        .data(dataByCountryStack)
-					        .enter().append("g")
-					        .attr("class", "stack")
-					        .attr("fill", function(d, i) { return colors(i); })
-                            .style("opacity", 0.8);
+					    .data(dataByCountryStack)
+					    .enter().append("g")
+					    .attr("class", "stack")
+					    .attr("fill", function(d, i) { return colors(i); })
+                        .style("opacity", 0.8);
 					 
 					layer.selectAll("rect")
-					        .data(function (d) {
-					            return d;
-					        })
-					        .enter().append("rect")
-					        .attr("x", function (d) {
-					            return xScale(d.x) - 25;
-					        })
-					        .attr("y", function (d) {
-					            return yScale(d.y + d.y0) + 50;
-					        })
-					        .attr("height", function (d) {
-					            return yScale(d.y0) - yScale(d.y + d.y0);
-					        })
-					        .attr("width", 50);
-
-
-
-					// Susie Lu's Legend (http://d3-legend.susielu.com/)
+					    .data(function (d) {
+					        return d;
+					    })
+					    .enter().append("rect")
+					    .attr("x", function (d) {
+					        return xScale(d.x) - 25;
+					    })
+					    .attr("y", function (d) {
+					        return yScale(d.y + d.y0) + 50;
+					    })
+					    .attr("height", function (d) {
+					        return yScale(d.y0) - yScale(d.y + d.y0);
+					    })
+					    .attr("width", 50);
+					             // Susie Lu's Legend (http://d3-legend.susielu.com/)
 					var colorLegend = d3.legendColor()
 				        .labelFormat(d3.format(".0f"))
 				        .scale(colors)
@@ -889,15 +888,14 @@
 				        .labelOffset(-100)
 				        .labels(["Facebook", "Twitter", "Instagram"]);
 
-				    svg3.append("g")
-				        .attr("transform", "translate(950, 90)")
+				    svg2.append("g")
+				        .attr("transform", "translate(120, 120)")
 				        .attr("font-family", "Rajdhani")
 				        .attr("font-size", 11)
                         .attr("fill", "#C1C1C1")
 				        .attr("id", "legend_4")
 				        .call(colorLegend);
 				});					
-
 			</script>
 		</p>
 	</body>
