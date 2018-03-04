@@ -265,6 +265,18 @@
 					    .style("text-anchor", "start")
                         .style("fill", "#C1C1C1")
 					    .text("BY LOG POPULATION SIZE & APPROVAL RATINGS");
+
+				svg1.append("text")
+						.attr("x", 290)
+					    .attr("y", 40)
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "10px")
+                        .style("font-style", "italic")
+					    .style("alignment-baseline", "middle")
+					    .style("text-anchor", "start")
+                        .style("fill", "#8C8C8B")
+                        .style("padding-top", "15px")
+					    .text("(Radius is total number of followers and opacity is approval ratings -- higher ratings, brighter color)");
                 
 				var socialMediaData0;
 
@@ -435,6 +447,18 @@
 					    .style("text-anchor", "start")
                         .style("fill", "#C1C1C1")
 					    .text("BY AGE & MAIN SOCIAL MEDIA PLATFORM");
+
+				svg2.append("text")
+						.attr("x", 250)
+					    .attr("y", 40)
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "10px")
+                        .style("font-style", "italic")
+					    .style("alignment-baseline", "middle")
+					    .style("text-anchor", "start")
+                        .style("fill", "#8C8C8B")
+                        .style("padding-top", "15px")
+					    .text("(Radius is total number of followers and color is social media platform with most followers");
                 
 				var socialMediaData1;
 
@@ -902,6 +926,14 @@
 
 				    svg2.append("g")
 				        .attr("transform", "translate(120, 120)")
+				        .attr("font-family", "Rajdhani")
+				        .attr("font-size", 11)
+                        .attr("fill", "#C1C1C1")
+				        .attr("id", "legend_4")
+				        .call(colorLegend);
+
+				    svg3.append("g")
+				        .attr("transform", "translate(110, 120)")
 				        .attr("font-family", "Rajdhani")
 				        .attr("font-size", 11)
                         .attr("fill", "#C1C1C1")
