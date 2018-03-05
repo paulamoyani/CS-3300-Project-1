@@ -954,6 +954,40 @@
 					    .style("text-anchor", "middle")
 					    .text("different languages");
                 
+                // Modi's annotation
+                    svg3.append("text")
+                        .attr("class", "textstyle3")
+                        .attr("x", 824)
+					    .attr("y", 70)
+                        .style("fill", "#C1C1C1")
+                        .style("alignment-baseline", "baseline")
+					    .style("text-anchor", "middle")
+					    .text("#1");
+                    svg3.append("text")
+                        .attr("class", "textstyle3")
+                        .attr("x", 824)
+					    .attr("y", 82)
+                        .style("alignment-baseline", "baseline")
+					    .style("text-anchor", "middle")
+					    .text("98.2 million");
+                
+                // Trump's annotation
+                    svg3.append("text")
+                        .attr("class", "textstyle3")
+                        .attr("x", 214)
+					    .attr("y", 123)
+                        .style("fill", "#C1C1C1")
+                        .style("alignment-baseline", "baseline")
+					    .style("text-anchor", "middle")
+					    .text("#2");
+                    svg3.append("text")
+                        .attr("class", "textstyle3")
+                        .attr("x", 214)
+					    .attr("y", 135)
+                        .style("alignment-baseline", "baseline")
+					    .style("text-anchor", "middle")
+					    .text("79.5 million");
+                
 				d3.json("data/Merged_Data_Feb21.json", function (error, data) {
 					socialMediaData2 = data;
 					var top10Leaders = [null];
