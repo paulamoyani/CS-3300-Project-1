@@ -923,6 +923,36 @@
                         .style("fill", "#C1C1C1")
 					    .text("BREAKDOWN OF TOP 10 WORLD LEADERS' FOLLOWERS");
 
+                // Pope's annotation
+                    svg3.append("path")
+                        .attr("d", "M 415 225 L 440 300 460 300")
+                        .attr("stroke", "#8C8C8B")
+                        .attr("stroke-width", 1)
+                        .attr("fill", "none");
+                
+                    svg3.append("text")
+                        .attr("class", "textstyle3")
+                        .attr("x", 415)
+					    .attr("y", 196)
+                        .style("alignment-baseline", "baseline")
+					    .style("text-anchor", "middle")
+					    .text("Includes 9 official");
+                
+                    svg3.append("text")
+                        .attr("class", "textstyle3")
+                        .attr("x", 415)
+					    .attr("y", 208)
+                        .style("alignment-baseline", "basline")
+					    .style("text-anchor", "middle")
+					    .text("Twitter accounts in");
+                
+                    svg3.append("text")
+                        .attr("class", "textstyle3")
+                        .attr("x", 415)
+					    .attr("y", 220)
+                        .style("alignment-baseline", "baseline")
+					    .style("text-anchor", "middle")
+					    .text("different languages");
                 
 				d3.json("data/Merged_Data_Feb21.json", function (error, data) {
 					socialMediaData2 = data;
@@ -947,7 +977,7 @@
 					var dataByCountryStack = [ //LISTOS: 
 								[	
 									{"x":0, "y0":0, "y":5540710}, //Mexico
-									{"x":1, "y0":0, "y":23126205}, //Unites States
+									{"x":1, "y0":0, "y":23126205}, //United States
 									{"x":2, "y0":0, "y":5554786}, //Canada
 									{"x":3, "y0":0, "y":4507652}, //Argentina
 									{"x":4, "y0":0, "y":0}, //Vatican City
@@ -959,7 +989,7 @@
 								],
 								[
 									{"x":0, "y0":5540710, "y":7078859}, //Mexico
-									{"x":1, "y0":23126205, "y":47801783}, //Unites States
+									{"x":1, "y0":23126205, "y":47801783}, //United States
 									{"x":2, "y0":5554786, "y":3970003}, //Canada
 									{"x":3, "y0":4507652, "y":4702549}, //Argentina
 									{"x":4, "y0":0, "y":45248276}, //Vatican City
@@ -971,7 +1001,7 @@
 								],
 								[
 									{"x":0, "y0":5540710+7078859, "y":310777}, //Mexico
-									{"x":1, "y0":23126205+47801783, "y":8433374}, //Unites States
+									{"x":1, "y0":23126205+47801783, "y":8433374}, //United States
 									{"x":2, "y0":5554786+3970003, "y":1976544}, //Canada
 									{"x":3, "y0":4507652+4702549, "y":780507}, //Argentina
 									{"x":4, "y0":0+45248276, "y":5255586}, //Vatican City
@@ -1013,11 +1043,11 @@
 						.tickFormat(function(d,i){ return xData[i] });
 					var xTicks = svg3.append("g")
 						.attr("transform", "translate(0, 410)")
-						.call(xAxis)
+						.call(xAxis);
                     
                     // set style of x axis
 				    xTicks.selectAll("text")
-                        .attr("transform", "translate(0, 55)")
+                        .attr("transform", "translate(0, 70)")
                         .style("font-family", "Rajdhani")
 						.style("font-size", "10px")
                         .style("fill", "#C1C1C1")
@@ -1028,6 +1058,28 @@
                     xTicks.selectAll("path")
                         .attr("stroke", "#8C8C8B");
                     xTicks.selectAll("line")
+                        .attr("stroke", "#none");
+                    
+                    // Country labels
+                    var xCountry = ["MEXICO", "USA", "CANADA", "ARGENTINA", "VATICAN CITY", "TURKEY", "RUSSIA", "UAE", "INDIA", "INDONESIA"];
+                    
+                    var xAxisCountry = d3.axisBottom(xScale).tickValues([0,1,2,3,4,5,6,7,8,9,10])
+						.tickFormat(function(d,i){ return xCountry[i] });
+                    var xAxisTicks = svg3.append("g")
+                        .attr("transform", "translate(0, 465)")
+						.call(xAxisCountry);
+                    
+                    xAxisTicks.selectAll("text")
+                        .style("font-family", "Rajdhani")
+				        .style("font-size", "11px")
+                        .style("fill", "#8C8C8B")
+				        .style("text-anchor", "middle")
+                        .style("text-align", "center")
+                        .call(wrap, 100);
+                    
+                    xAxisTicks.selectAll("path")
+                        .attr("stroke", "#none");
+                    xAxisTicks.selectAll("line")
                         .attr("stroke", "#none");
                     
 					svg3.append("text")
@@ -1042,7 +1094,7 @@
 
 					svg3.append("text")
 						.attr("x", 500)
-						.attr("y", 520)
+						.attr("y", 538)
 						.style("font-family", "Rajdhani")
 						.style("font-size", "14px")
 						.style("alignment-baseline", "middle")
