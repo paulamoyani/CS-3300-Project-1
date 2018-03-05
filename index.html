@@ -430,7 +430,7 @@
                                     .attr("cy", popScale(d.lgPop))
                                     .attr("r", followersScale(d.totalFollowers))
                                     .attr("transform", "translate(0, 50)")
-                                    .style("fill", "#FF4C4C")
+                                    .style("fill", "#E24D30")
                                     .style("opacity", approvalScale(d.approvalRatings));
                                 }
                                 else {
@@ -458,7 +458,7 @@
 					            .attr("cy", popScale(d.lgPop))
                                 .attr("transform", "translate(0, 50)")
 					            .attr("r", 3)
-					            .style("fill", "#FF4C4C")
+					            .style("fill", "#E24D30")
 					            .style("opacity", approvalScale(d.approvalRatings));
 					        };
 					    };
@@ -517,12 +517,12 @@
                     
                     approvalLegend.append("stop")
                         .attr("offset", "0%")
-                        .attr("stop-color", "#FF4C4C")
+                        .attr("stop-color", "#E24D30")
                         .attr("stop-opacity", 0);
                     
                     approvalLegend.append("stop")
                         .attr("offset", "100%")
-                        .attr("stop-color", "#FF4C4C")
+                        .attr("stop-color", "#E24D30")
                         .attr("stop-opacity", 1);
                     
                     svg1.append("rect")
@@ -538,6 +538,14 @@
 					    .style("alignment-baseline", "middle")
 					    .style("text-anchor", "start")
 					    .text("50%");
+                    
+                    svg1.append("text")
+                        .attr("class", "textstyle1")
+                        .attr("x", 95)
+					    .attr("y", 257)
+					    .style("alignment-baseline", "hanging")
+					    .style("text-anchor", "start")
+					    .text("0%");
                     
                     svg1.append("text")
                         .attr("class", "textstyle1")
