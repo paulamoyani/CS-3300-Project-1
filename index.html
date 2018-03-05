@@ -883,7 +883,7 @@
                                     https://bl.ocks.org/mbostock/7555321
 
 			-->
-            <svg id="graph3" style="display: block; margin-left: 0 auto; margin-right: 0 auto" viewBox="-50 0 1100 504" preserveAspectRatio="xMidYMid meet">
+            <svg id="graph3" style="display: block; margin-left: 0 auto; margin-right: 0 auto" viewBox="-50 0 1100 570" preserveAspectRatio="xMidYMid meet">
 			</svg>
 			<script type="text/javascript">
                 // wrap function taken from mike bostock
@@ -1017,7 +1017,7 @@
                     
                     // set style of x axis
 				    xTicks.selectAll("text")
-                        .attr("transform", "translate(0, 5)")
+                        .attr("transform", "translate(0, 55)")
                         .style("font-family", "Rajdhani")
 						.style("font-size", "10px")
                         .style("fill", "#C1C1C1")
@@ -1028,7 +1028,7 @@
                     xTicks.selectAll("path")
                         .attr("stroke", "#8C8C8B");
                     xTicks.selectAll("line")
-                        .attr("stroke", "#8C8C8B");
+                        .attr("stroke", "#none");
                     
 					svg3.append("text")
 						.attr("x", -20)
@@ -1042,7 +1042,7 @@
 
 					svg3.append("text")
 						.attr("x", 500)
-						.attr("y", 470)
+						.attr("y", 520)
 						.style("font-family", "Rajdhani")
 						.style("font-size", "14px")
 						.style("alignment-baseline", "middle")
@@ -1160,12 +1160,174 @@
 				        .attr("id", "legend_4")
 				        .call(colorLegend4);
                     
-                    svg3.append("svg:image")
-                        .attr("xlink:href", "https://pbs.twimg.com/profile_images/507818066814590976/KNG-IkT9_400x400.jpeg")
-                        .attr("x", "450")
-                        .attr("y", "170")
+                    // profile pictures
+                    // grayscale filter adapted from https://stackoverflow.com/questions/27357917/graying-out-an-image-in-d3js
+                    svg3.append("filter")
+                          .attr("id","grayscale")
+                          .append("feColorMatrix")
+                          .attr("type", "matrix")
+                          .attr("opacity", 0.7)
+                          .attr("values","0.3, 0.59, 0.11, 0, 0, 0.3, 0.59, 0.11, 0, 0, 0.3, 0.59, 0.11, 0, 0, 0, 0, 0, 1, 0");
+                    
+                    svg3.append("image")
+                        .attr("id", "NietoPP")
+                        .attr("xlink:href", "https://pbs.twimg.com/profile_images/936481512651763714/yD60uYsd_400x400.jpg")
+                        .attr("x", "102")
+                        .attr("y", "416")
                         .attr("width", "50")
-                        .attr("height", "50");
+                        .attr("height", "50")
+                        .attr("opacity", 0.8)
+                        .style("filter", function(d, i) {
+                          if (i % 2 == 0) {
+                            return ("filter", "url(#grayscale)");
+                          } else {
+                            return "";
+                          }
+                        });
+                    
+                    svg3.append("image")
+                        .attr("id", "TrumpPP")
+                        .attr("xlink:href", "https://pbs.twimg.com/profile_images/874276197357596672/kUuht00m_400x400.jpg")
+                        .attr("x", "189")
+                        .attr("y", "416")
+                        .attr("width", "50")
+                        .attr("height", "50")
+                        .attr("opacity", 0.8)
+                        .style("filter", function(d, i) {
+                          if (i % 2 == 0) {
+                            return ("filter", "url(#grayscale)");
+                          } else {
+                            return "";
+                          }
+                        });
+                    
+                    svg3.append("image")
+                        .attr("id", "TrudeauPP")
+                        .attr("xlink:href", "https://pbs.twimg.com/profile_images/950393608221454336/NbB_X0TG_400x400.jpg")
+                        .attr("x", "276")
+                        .attr("y", "416")
+                        .attr("width", "50")
+                        .attr("height", "50")
+                        .attr("opacity", 0.8)
+                        .style("filter", function(d, i) {
+                          if (i % 2 == 0) {
+                            return ("filter", "url(#grayscale)");
+                          } else {
+                            return "";
+                          }
+                        });
+                    
+                    svg3.append("image")
+                        .attr("id", "MacriPP")
+                        .attr("xlink:href", "https://pbs.twimg.com/profile_images/653558348273569792/joxg8DZD_400x400.png")
+                        .attr("x", "364")
+                        .attr("y", "416")
+                        .attr("width", "50")
+                        .attr("height", "50")
+                        .attr("opacity", 0.8)
+                        .style("filter", function(d, i) {
+                          if (i % 2 == 0) {
+                            return ("filter", "url(#grayscale)");
+                          } else {
+                            return "";
+                          }
+                        });
+                    
+                    svg3.append("image")
+                        .attr("id", "PopePP")
+                        .attr("xlink:href", "https://pbs.twimg.com/profile_images/507818066814590976/KNG-IkT9_400x400.jpeg")
+                        .attr("x", "451")
+                        .attr("y", "416")
+                        .attr("width", "50")
+                        .attr("height", "50")
+                        .attr("opacity", 0.8)
+                        .style("filter", function(d, i) {
+                          if (i % 2 == 0) {
+                            return ("filter", "url(#grayscale)");
+                          } else {
+                            return "";
+                          }
+                        });
+                    
+                    svg3.append("image")
+                        .attr("id", "ErdoganPP")
+                        .attr("xlink:href", "https://pbs.twimg.com/profile_images/887001037269323777/g6yxuJvl_400x400.jpg")
+                        .attr("x", "539")
+                        .attr("y", "416")
+                        .attr("width", "50")
+                        .attr("height", "50")
+                        .attr("opacity", 0.8)
+                        .style("filter", function(d, i) {
+                          if (i % 2 == 0) {
+                            return ("filter", "url(#grayscale)");
+                          } else {
+                            return "";
+                          }
+                        });
+                    
+                    svg3.append("image")
+                        .attr("id", "MedvedevPP")
+                        .attr("xlink:href", "https://pbs.twimg.com/profile_images/2348669225/5sfntu2zxyvans8vf9n8_400x400.png")
+                        .attr("x", "626")
+                        .attr("y", "416")
+                        .attr("width", "50")
+                        .attr("height", "50")
+                        .attr("opacity", 0.8)
+                        .style("filter", function(d, i) {
+                          if (i % 2 == 0) {
+                            return ("filter", "url(#grayscale)");
+                          } else {
+                            return "";
+                          }
+                        });
+                    
+                    svg3.append("image")
+                        .attr("id", "SheikhPP")
+                        .attr("xlink:href", "https://pbs.twimg.com/profile_images/561879065271865344/Km0x5XFD_400x400.jpeg")
+                        .attr("x", "714")
+                        .attr("y", "416")
+                        .attr("width", "50")
+                        .attr("height", "50")
+                        .attr("opacity", 0.8)
+                        .style("filter", function(d, i) {
+                          if (i % 2 == 0) {
+                            return ("filter", "url(#grayscale)");
+                          } else {
+                            return "";
+                          }
+                        });
+                    
+                    svg3.append("image")
+                        .attr("id", "ModiPP")
+                        .attr("xlink:href", "https://pbs.twimg.com/profile_images/718314968102367232/ypY1GPCQ_400x400.jpg")
+                        .attr("x", "801")
+                        .attr("y", "416")
+                        .attr("width", "50")
+                        .attr("height", "50")
+                        .attr("opacity", 0.8)
+                        .style("filter", function(d, i) {
+                          if (i % 2 == 0) {
+                            return ("filter", "url(#grayscale)");
+                          } else {
+                            return "";
+                          }
+                        });
+                    
+                    svg3.append("image")
+                        .attr("id", "WidodoPP")
+                        .attr("xlink:href", "https://pbs.twimg.com/profile_images/454878293691342849/ujA1dx9n_400x400.jpeg")
+                        .attr("x", "888")
+                        .attr("y", "416")
+                        .attr("width", "50")
+                        .attr("height", "50")
+                        .attr("opacity", 0.8)
+                        .style("filter", function(d, i) {
+                          if (i % 2 == 0) {
+                            return ("filter", "url(#grayscale)");
+                          } else {
+                            return "";
+                          }
+                        });
 				});					
 			</script>
 		</p>
@@ -1175,6 +1337,7 @@
             <br>Population data was retreived from <a href="https://data.worldbank.org/indicator/SP.POP.TOTL">World Bank World Development Indicators (2016)</a> and <a href="https://esa.un.org/unpd/wpp/DataQuery/">UN Population Division, World Population Prospects (2016)</a>.
             <br>Approval ratings were taken from the <a href="https://analyticscampus.gallup.com">Gallup World Poll (2017)</a>.
             <br>Capital city coordinates were taken from a dataset by <a href="http://techslides.com/list-of-countries-and-capitals">Techslides (2013)</a>.
+            <br>Profile pictures are taken from each leader's <a href="https://twitter.com/">Twitter</a> account page.
         </p>
 	</body>
 </html>
