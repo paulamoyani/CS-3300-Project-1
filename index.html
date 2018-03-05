@@ -83,6 +83,16 @@
                 font-style: italic;
                 fill: #8C8C8B;
             }
+            p#footnotes {
+                font-family: 'Rajdhani', sans-serif;
+                font-size: 12px;
+                font-style: normal;
+                color: #8C8C8B;
+            }
+            a {
+                text-decoration: none;
+                color: #C1C1C1;
+            }
 		</style>
 	</head>
 
@@ -487,10 +497,77 @@
                                 };
                             };
                     });
-
                     
+                    // approval ratings legend, adapted from: http://bl.ocks.org/darrenjaworski/5397362
+                    svg1.append("text")
+                        .attr("class", "textstyle1")
+					    .attr("x", 69)
+					    .attr("y", 270)
+					    .style("alignment-baseline", "middle")
+					    .style("text-anchor", "start")
+					    .text("APPROVAL RATINGS");
                     
+                    var approvalLegend = svg1.append("defs")
+                        .append("svg:linearGradient")
+                        .attr("id", "gradient")
+                        .attr("x1", "100%")
+                        .attr("y1", "0%")
+                        .attr("x2", "100%")
+                        .attr("y2", "100%");
                     
+                    approvalLegend.append("stop")
+                        .attr("offset", "0%")
+                        .attr("stop-color", "#FF4C4C")
+                        .attr("stop-opacity", 0);
+                    
+                    approvalLegend.append("stop")
+                        .attr("offset", "100%")
+                        .attr("stop-color", "#FF4C4C")
+                        .attr("stop-opacity", 1);
+                    
+                    svg1.append("rect")
+                        .attr("width", 15)
+                        .attr("height", 80)
+                        .style("fill", "url(#gradient)")
+                        .attr("transform", "translate(75,280)");
+                    
+                    svg1.append("text")
+                        .attr("class", "textstyle1")
+                        .attr("x", 95)
+					    .attr("y", 320)
+					    .style("alignment-baseline", "middle")
+					    .style("text-anchor", "start")
+					    .text("50%");
+                    
+                    svg1.append("text")
+                        .attr("class", "textstyle1")
+                        .attr("x", 95)
+					    .attr("y", 360)
+					    .style("alignment-baseline", "baseline")
+					    .style("text-anchor", "start")
+					    .text("100%");
+                    
+                    svg1.append("text")
+					    .attr("x", 95)
+					    .attr("y", 370)
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "10px")
+                        .style("font-style", "italic")
+					    .style("fill", "#8C8C8B")
+					    .style("alignment-baseline", "hanging")
+					    .style("text-anchor", "start")
+					    .text("Radius still represents");
+                    
+                    svg1.append("text")
+					    .attr("x", 95)
+					    .attr("y", 381)
+                        .style("font-family", "Rajdhani")
+					    .style("font-size", "10px")
+                        .style("font-style", "italic")
+					    .style("fill", "#8C8C8B")
+					    .style("alignment-baseline", "hanging")
+					    .style("text-anchor", "start")
+					    .text("total no. of followers");
 				});
 
 			</script>
@@ -973,17 +1050,6 @@
 					    .attr("width", 50);
 				
                     // Susie Lu's Legend (http://d3-legend.susielu.com/)
-                    // approval ratings legend
-                    svg1.append("text")
-					    .attr("x", 69)
-					    .attr("y", 110)
-					    .style("font-family", "Rajdhani")
-					    .style("font-size", "11px")
-					    .style("fill", "#8C8C8B")
-					    .style("alignment-baseline", "middle")
-					    .style("text-anchor", "start")
-					    .text("APPROVAL RATINGS");
-                    
                     // Graph 3 legend
 					var colorLegend3 = d3.legendColor()
 				        .labelFormat(d3.format(".0f"))
@@ -1073,10 +1139,11 @@
 			</script>
 		</p>
         <p id="footnotes">
-            Data sources:
-            <br>Social media data was compiled by CupoNation (2018).
-            <br>Population data was retreived from World Bank World Development Indicators (2016) and UN Population Division, World Population Prospects (2016).
-            <br>Approval ratings were taken from the Gallup World Poll (2017).
+            DATA SOURCES:
+            <br>Social media data was compiled by <a href="http://cuponation.com/world-leaders-social-media/">CupoNation (2018)</a>.
+            <br>Population data was retreived from <a href="https://data.worldbank.org/indicator/SP.POP.TOTL">World Bank World Development Indicators (2016)</a> and <a href="https://esa.un.org/unpd/wpp/DataQuery/">UN Population Division, World Population Prospects (2016)</a>.
+            <br>Approval ratings were taken from the <a href="https://analyticscampus.gallup.com">Gallup World Poll (2017)</a>.
+            <br>Capital city coordinates were taken from a dataset by <a href="http://techslides.com/list-of-countries-and-capitals">Techslides (2013)</a>.
         </p>
 	</body>
 </html>
