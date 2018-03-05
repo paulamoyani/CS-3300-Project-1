@@ -502,7 +502,7 @@
                     svg1.append("text")
                         .attr("class", "textstyle1")
 					    .attr("x", 69)
-					    .attr("y", 270)
+					    .attr("y", 247)
 					    .style("alignment-baseline", "middle")
 					    .style("text-anchor", "start")
 					    .text("APPROVAL RATINGS");
@@ -529,12 +529,12 @@
                         .attr("width", 15)
                         .attr("height", 80)
                         .style("fill", "url(#gradient)")
-                        .attr("transform", "translate(75,280)");
+                        .attr("transform", "translate(75,257)");
                     
                     svg1.append("text")
                         .attr("class", "textstyle1")
                         .attr("x", 95)
-					    .attr("y", 320)
+					    .attr("y", 297)
 					    .style("alignment-baseline", "middle")
 					    .style("text-anchor", "start")
 					    .text("50%");
@@ -542,10 +542,26 @@
                     svg1.append("text")
                         .attr("class", "textstyle1")
                         .attr("x", 95)
-					    .attr("y", 360)
+					    .attr("y", 337)
 					    .style("alignment-baseline", "baseline")
 					    .style("text-anchor", "start")
 					    .text("100%");
+                    
+                    svg1.append("circle")
+					    .attr("cx", 82)
+					    .attr("cy", 355)
+                        .attr("r", 7)
+					    .style("fill", "none")
+                        .style("stroke", "#4C4848")
+                        .style("stroke-width", "2");
+                    
+                    svg1.append("text")
+                        .attr("class", "textstyle1")
+					    .attr("x", 95)
+					    .attr("y", 356)
+					    .style("alignment-baseline", "middle")
+					    .style("text-anchor", "start")
+					    .text("No data");
                     
                     svg1.append("text")
 					    .attr("x", 95)
