@@ -57,13 +57,20 @@
                 dominant-baseline: 'central';
                 background: #2B2727;
             }
+            .legendSize circle {
+                fill: #CE7602;
+                opacity: 0.2;
+            }
+            .legendSize text {
+                font-size: 11px;
+                fill: #8C8C8B;
+            }
 		</style>
 	</head>
 
 	<body>
 		<h1>World Leaders and their Social Media Presence</h1>
         <h2>CS 3300 PROJECT 1</h2>
-        <h4>The data represented is based on each world leader's Facebook, Twitter, and Instagram followers.</h4>
         <h3>Danyal Motiwalla (djm453)
         <br>Paula Moya Nieto (pm445)
         <br>& Rachel Yunyann Liu (rl544)</h3>
@@ -99,7 +106,7 @@
 					    .style("alignment-baseline", "hanging")
 					    .style("text-anchor", "start")
                         .style("fill", "#8C8C8B")
-					    .text("The countries or states named represent the world leaders with the top 10 highest numbers of followers.");
+					    .text("The countries or states named represent the world leaders with the top 10 highest numbers of followers, combining Facebook, Twitter and Instagram.");
 				
                 var width = 1010;
 				var height = 480;
@@ -171,8 +178,8 @@
 				    	var circles = svg.selectAll("circle").data(leadersWithFollowers);
 
 				    	circles = circles.enter().append("circle")
-				    		.style("fill", "#399A00")
-				    		.style("opacity", 0.75)
+				    		.style("fill", "#DD8A05")
+				    		.style("opacity", 0.5)
 				    		.merge(circles);
 
 				    	circles.attr("cx", function(d) {
@@ -196,8 +203,6 @@
 				   		var specialCircles = svg.selectAll("circle").data(specialCapitals);
 
 				    	specialCircles = specialCircles.enter().append("circle")
-				    		.style("fill", "#FF4C4C")
-				    		.style("opacity", 0.6)
 				    		.merge(specialCircles);
 
 				    	specialCircles
@@ -241,6 +246,53 @@
 				          return projection(d)[0]})
 						.attr("y2",height)
 						.style("stroke", "#C1C1C1");
+                        
+                    //legend
+                        svg.append("text")
+						.attr("x", -20)
+					    .attr("y", 250)
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "11px")
+					    .style("alignment-baseline", "hanging")
+					    .style("text-anchor", "start")
+                        .style("fill", "#8C8C8B")
+					    .text("NO. OF FOLLOWERS");
+                        
+                        svg.append("circle")
+                        .attr("id", "legend")
+                        .attr("cx", 20)
+                        .attr("cy", 283)
+                        .attr("r", 3)
+				        .style("fill", "#DD8A05")
+				        .style("opacity", 0.2)
+                        
+                        svg.append("text")
+						.attr("x", 63)
+					    .attr("y", 283)
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "11px")
+					    .style("alignment-baseline", "middle")
+					    .style("text-anchor", "start")
+                        .style("fill", "#8C8C8B")
+					    .text("< 10 mil");
+                        
+                        svg.append("g")
+                        .attr("font-family", "Rajdhani")
+				        .attr("font-size", 11)
+                        .attr("class", "legendSize")
+                        .attr("transform", "translate(20, 280)");
+
+                        var legendSize = d3.legendSize()
+                        .scale(followersScale)
+                        .cells([10000000, 50000000])
+                        .shape("circle")
+                        .shapePadding(0)
+                        .labels(["10 mil", "50 mil"])
+                        .labelOffset(10)
+                        .orient("vertical");
+
+                        svg.select(".legendSize")
+                        .call(legendSize);
 					};
 				});
 			</script>
@@ -265,18 +317,6 @@
 					    .style("text-anchor", "start")
                         .style("fill", "#C1C1C1")
 					    .text("BY LOG POPULATION SIZE & APPROVAL RATINGS");
-
-				svg1.append("text")
-						.attr("x", 290)
-					    .attr("y", 40)
-					    .style("font-family", "Rajdhani")
-					    .style("font-size", "10px")
-                        .style("font-style", "italic")
-					    .style("alignment-baseline", "middle")
-					    .style("text-anchor", "start")
-                        .style("fill", "#8C8C8B")
-                        .style("padding-top", "15px")
-					    .text("(Radius is total number of followers and opacity is approval ratings -- higher ratings, brighter color)");
                 
 				var socialMediaData0;
 
@@ -404,24 +444,51 @@
                     // to layer text above circles.
                     socialMediaData0.forEach(function (d) {
 					        if (d.totalFollowers >= 10021649) {
-					            svg1.append("text")
-					            .attr("x", longitudeScale(d.capitalLongitude)+5)
-					            .attr("y", popScale(d.lgPop)-0.8)
-                                .attr("transform", "translate(0, 50)")
-					            .style("font-family", "Rajdhani")
-					            .style("font-size", "10px")
-					            .style("alignment-baseline", "middle")
-                                .style("fill", "#C1C1C1")
-					            .text(d.worldLeader);
-                                svg1.append("circle")
+					            svg1.append("circle")
 					            .attr("cx", longitudeScale(d.capitalLongitude))
 					            .attr("cy", popScale(d.lgPop))
                                 .attr("transform", "translate(0, 50)")
 					            .attr("r", 1)
 					            .style("fill", "#C1C1C1");
+                                if (d.worldLeader != "Mauricio Macri") {
+                                    svg1.append("text")
+                                    .attr("x", longitudeScale(d.capitalLongitude)+5)
+                                    .attr("y", popScale(d.lgPop)-0.8)
+                                    .attr("transform", "translate(0, 50)")
+                                    .style("font-family", "Rajdhani")
+                                    .style("font-size", "10px")
+                                    .style("alignment-baseline", "middle")
+                                    .style("fill", "#C1C1C1")
+                                    .text(d.worldLeader);
+                                }
+                                else {
+                                    svg1.append("text")
+                                    .attr("x", longitudeScale(d.capitalLongitude)+5)
+                                    .attr("y", popScale(d.lgPop)-2)
+                                    .attr("transform", "translate(0, 50)")
+                                    .style("font-family", "Rajdhani")
+                                    .style("font-size", "10px")
+                                    .style("alignment-baseline", "baseline")
+                                    .style("fill", "#C1C1C1")
+                                    .text(d.worldLeader);
+                                };
                             };
                     });
 
+                    // approval ratings legend
+                    svg1.append("g")
+                      .attr("class", "approvalLegend")
+                      .attr("transform", "translate(20,20)");
+
+                    var legend = d3.legendColor()
+                      .labelFormat(d3.format(".1f"))
+                      .useClass(true)
+                      .title("A really really really really really long title")
+                      .titleWidth(100)
+                      .scale(approvalScale);
+
+                    svg.select(".approvalLegend")
+                      .call(legend);
 				});
 
 			</script>
