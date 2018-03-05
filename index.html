@@ -65,6 +65,24 @@
                 font-size: 11px;
                 fill: #8C8C8B;
             }
+            .textstyle1 {
+                font-family: 'Rajdhani', sans-serif;
+                font-size: 11px;
+                font-style: normal;
+                fill: #8C8C8B;
+            }
+            .textstyle2 {
+                font-family: 'Rajdhani', sans-serif;
+                font-size: 11px;
+                font-style: normal;
+                fill: #C1C1C1;
+            }
+            .textstyle3 {
+                font-family: 'Rajdhani', sans-serif;
+                font-size: 11px;
+                font-style: italic;
+                fill: #8C8C8B;
+            }
 		</style>
 	</head>
 
@@ -99,13 +117,11 @@
                         .style("fill", "#C1C1C1")
 					    .text("BY TOTAL NO. OF FOLLOWERS");
                 svg.append("text")
+                        .attr("class", "textstyle1")
 						.attr("x", -20)
 					    .attr("y", 25)
-					    .style("font-family", "Rajdhani")
-					    .style("font-size", "11px")
 					    .style("alignment-baseline", "hanging")
 					    .style("text-anchor", "start")
-                        .style("fill", "#8C8C8B")
 					    .text("The countries or states named represent the world leaders with the top 10 highest numbers of followers, combining Facebook, Twitter and Instagram.");
 				
                 var width = 1010;
@@ -249,13 +265,11 @@
                         
                     //legend
                         svg.append("text")
-						.attr("x", -20)
+						.attr("class", "textstyle1")
+                        .attr("x", -20)
 					    .attr("y", 250)
-					    .style("font-family", "Rajdhani")
-					    .style("font-size", "11px")
 					    .style("alignment-baseline", "hanging")
 					    .style("text-anchor", "start")
-                        .style("fill", "#8C8C8B")
 					    .text("NO. OF FOLLOWERS");
                         
                         svg.append("circle")
@@ -267,13 +281,11 @@
 				        .style("opacity", 0.2)
                         
                         svg.append("text")
+                        .attr("class", "textstyle1")
 						.attr("x", 63)
 					    .attr("y", 283)
-					    .style("font-family", "Rajdhani")
-					    .style("font-size", "11px")
 					    .style("alignment-baseline", "middle")
 					    .style("text-anchor", "start")
-                        .style("fill", "#8C8C8B")
 					    .text("< 10 mil");
                         
                         svg.append("g")
@@ -308,6 +320,7 @@
 				var svg1 = d3.select("#graph1");
 
                 svg1.append("text")
+                        .attr("class", "graphTitle")
 						.attr("x", -20)
 					    .attr("y", 40)
 					    .style("font-family", "Rajdhani")
@@ -475,20 +488,9 @@
                             };
                     });
 
-                    // approval ratings legend
-                    svg1.append("g")
-                      .attr("class", "approvalLegend")
-                      .attr("transform", "translate(20,20)");
-
-                    var legend = d3.legendColor()
-                      .labelFormat(d3.format(".1f"))
-                      .useClass(true)
-                      .title("A really really really really really long title")
-                      .titleWidth(100)
-                      .scale(approvalScale);
-
-                    svg.select(".approvalLegend")
-                      .call(legend);
+                    
+                    
+                    
 				});
 
 			</script>
@@ -514,18 +516,6 @@
 					    .style("text-anchor", "start")
                         .style("fill", "#C1C1C1")
 					    .text("BY AGE & MAIN SOCIAL MEDIA PLATFORM");
-
-				svg2.append("text")
-						.attr("x", 250)
-					    .attr("y", 40)
-					    .style("font-family", "Rajdhani")
-					    .style("font-size", "10px")
-                        .style("font-style", "italic")
-					    .style("alignment-baseline", "middle")
-					    .style("text-anchor", "start")
-                        .style("fill", "#8C8C8B")
-                        .style("padding-top", "15px")
-					    .text("(Radius is total number of followers and color is social media platform with most followers");
                 
 				var socialMediaData1;
 
@@ -893,7 +883,7 @@
 							];
 					 
 					var colors = d3.scaleOrdinal().range(["#3b5998", "#1dcaff", "#cd486b"]);
-
+                    
 					var yScale = d3.scaleLinear()
 						.domain([0,d3.max(dataByCountryStack[dataByCountryStack.length - 1],function (d) { return d.y0 + d.y;})])
 						.range([360, 40]);
@@ -981,31 +971,104 @@
 					        return yScale(d.y0) - yScale(d.y + d.y0);
 					    })
 					    .attr("width", 50);
-					             // Susie Lu's Legend (http://d3-legend.susielu.com/)
-					var colorLegend = d3.legendColor()
+				
+                    // Susie Lu's Legend (http://d3-legend.susielu.com/)
+                    // approval ratings legend
+                    svg1.append("text")
+					    .attr("x", 69)
+					    .attr("y", 110)
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "11px")
+					    .style("fill", "#8C8C8B")
+					    .style("alignment-baseline", "middle")
+					    .style("text-anchor", "start")
+					    .text("APPROVAL RATINGS");
+                    
+                    // Graph 3 legend
+					var colorLegend3 = d3.legendColor()
 				        .labelFormat(d3.format(".0f"))
 				        .scale(colors)
-				        .shapePadding(5)
-				        .shapeWidth(50)
-				        .shapeHeight(10)
-				        .labelOffset(-100)
+                        .shape("circle")
+                        .shapeRadius(3)
+				        .shapePadding(10)
+				        .labelOffset(8)
 				        .labels(["Facebook", "Twitter", "Instagram"]);
 
 				    svg2.append("g")
-				        .attr("transform", "translate(120, 120)")
+				        .attr("transform", "translate(74, 125)")
 				        .attr("font-family", "Rajdhani")
 				        .attr("font-size", 11)
-                        .attr("fill", "#C1C1C1")
-				        .attr("id", "legend_4")
-				        .call(colorLegend);
+                        .attr("fill", "#8C8C8B")
+				        .attr("id", "legend_3")
+				        .call(colorLegend3);
+                    
+                    svg2.append("text")
+					    .attr("x", 69)
+					    .attr("y", 110)
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "11px")
+					    .style("fill", "#8C8C8B")
+					    .style("alignment-baseline", "middle")
+					    .style("text-anchor", "start")
+					    .text("MAIN PLATFORM");
+                    
+                    svg2.append("circle")
+					    .attr("cx", 74)
+					    .attr("cy", 176)
+                        .attr("r", 3)
+					    .style("fill", "#C0C0C0")
+					    .style("opacity", 0.3);
+                    
+                    svg2.append("text")
+					    .attr("x", 85)
+					    .attr("y", 176)
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "11px")
+					    .style("fill", "#8C8C8B")
+					    .style("alignment-baseline", "middle")
+					    .style("text-anchor", "start")
+					    .text("No social media");
+                    
+                    svg2.append("text")
+					    .attr("x", 85)
+					    .attr("y", 188)
+					    .style("font-family", "Rajdhani")
+					    .style("font-size", "10px")
+                        .style("font-style", "italic")
+					    .style("fill", "#8C8C8B")
+					    .style("alignment-baseline", "hanging")
+					    .style("text-anchor", "start")
+					    .text("Radius still represents");
+                    
+                    svg2.append("text")
+					    .attr("x", 85)
+					    .attr("y", 199)
+                        .style("font-family", "Rajdhani")
+					    .style("font-size", "10px")
+                        .style("font-style", "italic")
+					    .style("fill", "#8C8C8B")
+					    .style("alignment-baseline", "hanging")
+					    .style("text-anchor", "start")
+					    .text("total no. of followers");
+                    
+                    // Graph 4 legend
+                    var colorLegend4 = d3.legendColor()
+				        .labelFormat(d3.format(".0f"))
+				        .scale(colors)
+				        .shapePadding(7)
+				        .shapeWidth(10)
+				        .shapeHeight(10)
+				        .labelOffset(10)
+                        .ascending(true)
+				        .labels(["Facebook", "Twitter", "Instagram"]);
 
 				    svg3.append("g")
-				        .attr("transform", "translate(110, 120)")
+				        .attr("transform", "translate(70, 110)")
 				        .attr("font-family", "Rajdhani")
 				        .attr("font-size", 11)
-                        .attr("fill", "#C1C1C1")
+                        .attr("fill", "#8C8C8B")
 				        .attr("id", "legend_4")
-				        .call(colorLegend);
+				        .call(colorLegend4);
 				});					
 			</script>
 		</p>
